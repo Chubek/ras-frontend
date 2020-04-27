@@ -13,7 +13,7 @@ import {
 } from 'react-native-elements';
 
 import * as en from '../../translations/en.json';
-import { showErrorMessage } from '../../helpers';
+import ClosableMessage from '../stateless/ClosableMessage';
 
 const image = require('../../../assets/images/background.png');
 const logoPlaceholder = require('../../../assets/images/white-logo.png');
@@ -22,17 +22,22 @@ export default class LoginPageComponent extends Component {
   state = {
     email: null,
     password: null,
+    showError: true,
   };
 
-  componentDidUpdate(pervProps) {
-    console.log('oldError', pervProps.error);
-    console.log('newError', this.props.error);
-    if (pervProps.error !== this.props.error) {
-      showErrorMessage(this.props.error);
-    } else {
-      showErrorMessage(pervProps.error);
+  componentWillReceiveProps(nextProps) {
+    if (this.props.error !== nextProps.error) {
+      this.setState({
+        showError: true,
+      });
+    } else if (this.props.error === nextProps.error) {
+      this.setState({ showError: true });
     }
   }
+
+  hideMessage = () => {
+    this.setState({ showError: false });
+  };
 
   onAuth = async () => {
     const { signIn, navigation } = this.props;
@@ -99,6 +104,14 @@ export default class LoginPageComponent extends Component {
                 onPress={() => this.onAuth()}
               />
             </Col>
+          </Row>
+          <Row size={40}>
+            <ClosableMessage
+              showIf={this.state.showError}
+              variant="success"
+              onSetHide={this.hideMessage}
+              message="testMessage"
+            />
           </Row>
         </Grid>
       </ImageBackground>
