@@ -1,0 +1,10 @@
+{
+    "auth": {
+        "email": "Your Email",
+        "password": "Your Password",
+        "login": "Sign In",
+        "placeholderEmail": "email@address.com",
+        "emailInfo": "Type your email here.",
+        "passwordInfo": "Type your password here."
+    }
+}
