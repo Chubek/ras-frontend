@@ -17,7 +17,8 @@
     "postinstall": "npx jetify",
     "plop": "plop",
     "remotedev": "remotedev --hostname=localhost --port=8000",
-    "adb-reverse": "adb reverse tcp:8000 tcp:8000 && adb reverse tcp:8081 tcp:8081"
+    "adb-reverse": "adb reverse tcp:8000 tcp:8000 && adb reverse tcp:8081 tcp:8081",
+    "link": "react-native link @react-native-community/blur"
   },
   "dependencies": {
     "@exponent/react-native-action-sheet": "^0.3.0",

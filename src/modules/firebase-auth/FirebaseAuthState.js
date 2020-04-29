@@ -2,13 +2,14 @@
 
 import auth from '@react-native-firebase/auth';
 import * as CONSTANTS from './FirebaseAuthConstants';
-
+import I18t from '../../translations';
 // initialState
 
 const initialState = {
   userSignedIn: false,
   userProfile: {},
   error: null,
+  message: null,
 };
 
 // thunk functions
@@ -31,19 +32,16 @@ export function onAuthStateChanged() {
 }
 
 export function registerWithEmailAndPassword(email, password) {
-  return new Promise((resolve, reject) => {
-    return dispatch => {
-      auth()
-        .createUserWithEmailAndPassword(email, password)
-        .then(() => {
-          resolve({ userCreated: true });
-          dispatch({ type: CONSTANTS.SET_USER, payload: true });
-        })
-        .catch(e => {
-          reject(e);
-        });
-    };
-  });
+  return dispatch => {
+    auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then(() => {
+        dispatch({ type: CONSTANTS.SET_LOGGEDIN, payload: true });
+      })
+      .catch(e => {
+        dispatch({ type: CONSTANTS.SET_ERROR, payload: e.message });
+      });
+  };
 }
 
 export function signOut() {
@@ -67,39 +65,37 @@ export function signIn(email, password) {
       .then(() => {
         dispatch({ type: CONSTANTS.SET_LOGGEDIN, payload: true });
       })
-      .catch(e => {        
+      .catch(e => {
         dispatch({ type: CONSTANTS.SET_ERROR, payload: e.message });
       });
   };
 }
 
 export function getUserProfile() {
-  return new Promise((resolve, reject) => {
-    return dispatch => {
-      try {
-        const { name, email, uid } = auth().currentUser;
+  return dispatch => {
+    const { email, uid } = auth().currentUser;
 
-        if (name && email && uid) {
-          resolve({ currentUser: auth().currentUser });
-          dispatch({
-            type: CONSTANTS.SET_PROFILE,
-            payload: auth().currentUser,
-          });
-        }
-      } catch (e) {
-        reject(e);
-      }
-    };
-  });
+    if (email && uid) {
+      dispatch({
+        type: CONSTANTS.SET_PROFILE,
+        payload: auth().currentUser,
+      });
+    }
+  };
 }
 
 export function sendVerificationEmail() {
-  return new Promise((resolve, reject) => {
+  return dispatch => {
     auth()
       .currentUser.sendEmailVerification()
-      .then(() => resolve({ emailSent: true }))
-      .catch(e => reject(e));
-  });
+      .then(() =>
+        dispatch({
+          type: CONSTANTS.SET_MESSAGE,
+          payload: I18t.t('messages.verificationEmailSent'),
+        }),
+      )
+      .catch(e => dispatch({ type: CONSTANTS.SET_ERROR, payload: e.message }));
+  };
 }
 
 export function updateEmail(email) {
@@ -226,6 +222,11 @@ export default function FirebaseAuthStateReducer(
       return {
         ...state,
         error: action.payload,
+      };
+    case CONSTANTS.SET_MESSAGE:
+      return {
+        ...state,
+        message: action.payload,
       };
     default:
       return state;

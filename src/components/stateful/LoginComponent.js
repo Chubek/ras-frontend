@@ -1,22 +1,12 @@
 /* Authored by Chubak Bidpaa: chubakbidpaa@gmail.com - 2020 - Corona Times */
 import React, { Component } from 'react';
 import { StyleSheet, ImageBackground } from 'react-native';
-
 import { Col, Row, Grid } from 'react-native-easy-grid';
-import {
-  Tooltip,
-  Icon,
-  Input,
-  Image,
-  Text,
-  Button,
-} from 'react-native-elements';
-
-import * as en from '../../translations/en.json';
+import { Tooltip, Icon, Input, Text, Button } from 'react-native-elements';
+import I18t from '../../translations';
 import ClosableMessage from '../stateless/ClosableMessage';
 
 const image = require('../../../assets/images/background.png');
-const logoPlaceholder = require('../../../assets/images/white-logo.png');
 
 export default class LoginPageComponent extends Component {
   state = {
@@ -26,17 +16,20 @@ export default class LoginPageComponent extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.error !== nextProps.error) {
+    if (nextProps.error) {
       this.setState({
         showError: true,
       });
-    } else if (this.props.error === nextProps.error) {
-      this.setState({ showError: true });
     }
   }
 
   hideMessage = () => {
     this.setState({ showError: false });
+    this.onNullifyError();
+  };
+
+  onNullifyError = () => {
+    this.props.nullifyError();
   };
 
   onAuth = async () => {
@@ -54,24 +47,21 @@ export default class LoginPageComponent extends Component {
     return (
       <ImageBackground resizeMode="cover" source={image} style={styles.bgImage}>
         <Grid>
-          <Row size={40} style={styles.logoImage}>
-            <Image source={logoPlaceholder} />
-          </Row>
-          <Row size={30} style={styles.emailInput}>
+          <Row size={50} style={styles.emailInput}>
             <Col size={90}>
               <Input
-                placeholder={en.auth.placeholderEmail}
+                placeholder={I18t.t('auth.placeholderEmail')}
                 autoCorrect={false}
                 leftIcon={{
                   type: 'font-awesome',
                   name: 'envelope',
                 }}
-                label={en.auth.email}
+                label={I18t.t('auth.email')}
                 onChangeText={text => this.setState({ email: text })}
               />
             </Col>
             <Col size={10}>
-              <Tooltip popover={<Text>{en.auth.emailInfo}</Text>}>
+              <Tooltip popover={<Text>{I18t.t('auth.emailInfo')}</Text>}>
                 <Icon name="question-circle" type="font-awesome" color="#f50" />
               </Tooltip>
             </Col>
@@ -79,15 +69,15 @@ export default class LoginPageComponent extends Component {
           <Row size={30} style={styles.emailInput}>
             <Col size={90}>
               <Input
-                placeholder={en.auth.password}
+                placeholder={I18t.t('auth.password')}
                 leftIcon={{ type: 'font-awesome', name: 'key' }}
-                label={en.auth.password}
+                label={I18t.t('auth.password')}
                 onChangeText={text => this.setState({ password: text })}
                 secureTextEntry
               />
             </Col>
             <Col size={10}>
-              <Tooltip popover={<Text>{en.auth.passwordInfo}</Text>}>
+              <Tooltip popover={<Text>{I18t.t('auth.passwordInfo')}</Text>}>
                 <Icon name="question-circle" type="font-awesome" color="#f50" />
               </Tooltip>
             </Col>
@@ -100,20 +90,22 @@ export default class LoginPageComponent extends Component {
                   name: 'sign-in',
                   color: 'white',
                 }}
-                title={en.auth.login}
+                title={I18t.t('auth.login')}
                 onPress={() => this.onAuth()}
               />
             </Col>
           </Row>
-          <Row size={40}>
-            <ClosableMessage
-              showIf={this.state.showError}
-              variant="success"
-              onSetHide={this.hideMessage}
-              message="testMessage"
-            />
-          </Row>
         </Grid>
+        <ClosableMessage
+          showIf={this.state.showError}
+          variant="error"
+          onSetHide={this.hideMessage}
+          message={this.props.error}
+          blurType="dark"
+          fontSize={20}
+          containerHeight={20}
+          style={styles.closableMessage}
+        />
       </ImageBackground>
     );
   }
@@ -138,5 +130,18 @@ const styles = StyleSheet.create({
   },
   toolTipCol: {
     marginLeft: -20,
+  },
+  absolute: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+  },
+  closableMessage: {
+    flex: 1,
+    position: 'absolute',
+    left: 0,
+    top: 0,
   },
 });

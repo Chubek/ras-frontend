@@ -179,7 +179,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
     implementation "com.facebook.react:react-native:+"  // From node_modules
-
+    compile project(':react-native-blur')
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
 
     if (enableHermes) {

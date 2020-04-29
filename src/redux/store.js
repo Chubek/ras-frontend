@@ -49,10 +49,10 @@ const enhancer = enhancerComposer(
 );
 
 const persistConfig = {
-  key: 'root-v3',
+  key: 'root-v4-dev',
   storage: AsyncStorage,
-  version: 3,
-  migrate: createMigrate({ 3: state => initialState }),
+  version: 4,
+  migrate: createMigrate({ 4: state => initialState }),
   stateReconciler: autoMergeLevel2,
 };
 

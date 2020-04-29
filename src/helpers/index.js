@@ -46,3 +46,7 @@ export const getEditDates = editCaptures => {
 export const getDate = () => {
   return new Date().toISOString().substr(0, 10);
 };
+
+export const emailPattern = new RegExp(
+  "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$",
+);

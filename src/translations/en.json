@@ -6,5 +6,9 @@
         "placeholderEmail": "email@address.com",
         "emailInfo": "Type your email here.",
         "passwordInfo": "Type your password here."
-    }
+    },
+    "messages": {
+        "verificationEmailSent": "Verification email sent successfully."
+    },
+    "register": "Registers"
 }

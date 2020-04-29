@@ -5,3 +5,4 @@ export const SET_LOGGEDIN = 'SET_LOGGEDIN';
 export const SET_PROFILE = 'SET_PROFILE';
 export const SET_EMAIL = 'SET_EMAIL';
 export const SET_ERROR = 'SET_ERROR';
+export const SET_MESSAGE = 'SET_MESSAGE';
