@@ -8,7 +8,16 @@
         "passwordInfo": "Type your password here."
     },
     "messages": {
-        "verificationEmailSent": "Verification email sent successfully."
+        "verificationEmailSent": "Verification email sent successfully.",
+        "passwordChanged": "Your password was upated successfully.",
+        "passwordChangedEmailSent": "Your password was updated and verification email was sent.",
+        "emailChanged": "Email was successfully updated.",
+        "reAuth": "User reauthenticated successfully."
     },
-    "register": "Registers"
+    "register": "Registers",
+    "updatePass": {
+        "oldPass": "Current Password",
+        "newPass": "New Password",
+        "updatePass": "Update Password"
+    }
 }

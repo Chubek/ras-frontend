@@ -12,7 +12,7 @@ export default class LoginPageComponent extends Component {
   state = {
     email: null,
     password: null,
-    showError: true,
+    showError: false,
   };
 
   componentWillReceiveProps(nextProps) {
@@ -20,6 +20,10 @@ export default class LoginPageComponent extends Component {
       this.setState({
         showError: true,
       });
+    }
+    if (nextProps.userSignedIn) {
+      this.props.setProfile();
+      this.props.navigation.navigate('UpdatePasswordScreen');
     }
   }
 
@@ -32,15 +36,11 @@ export default class LoginPageComponent extends Component {
     this.props.nullifyError();
   };
 
-  onAuth = async () => {
-    const { signIn, navigation } = this.props;
+  onAuth = () => {
+    const { signIn } = this.props;
     const { email, password } = this.state;
 
-    const authRes = await signIn(email, password);
-
-    if (authRes) {
-      navigation.navigate('ResumeCatalogueScreen');
-    }
+    signIn(email, password);
   };
 
   render() {

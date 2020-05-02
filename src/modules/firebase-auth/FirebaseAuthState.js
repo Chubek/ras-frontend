@@ -14,21 +14,20 @@ const initialState = {
 
 // thunk functions
 export function onAuthStateChanged() {
-  return new Promise((resolve, reject) => {
-    return dispatch => {
-      auth()
-        .onAuthStateChanged()
-        .then(user => {
-          if (user) {
-            resolve({ user, userChanged: true });
-            dispatch({ type: CONSTANTS.SET_USER, payload: user });
-          } else {
-            reject();
-          }
-        })
-        .catch(e => reject(e));
-    };
-  });
+  return dispatch => {
+    auth()
+      .onAuthStateChanged()
+      .then(user => {
+        if (user) {
+          dispatch({
+            type: CONSTANTS.SET_MESSAGE,
+            payload: I18t.t('messages.reAuth'),
+          });
+          dispatch({ type: CONSTANTS.SET_USER, payload: user });
+        }
+      })
+      .catch(e => dispatch({ type: CONSTANTS.SET_ERROR, payload: e.message }));
+  };
 }
 
 export function registerWithEmailAndPassword(email, password) {
@@ -45,17 +44,14 @@ export function registerWithEmailAndPassword(email, password) {
 }
 
 export function signOut() {
-  return new Promise((resolve, reject) => {
-    return dispatch => {
-      auth()
-        .signOut()
-        .then(() => {
-          resolve({ signedOut: true });
-          dispatch({ type: CONSTANTS.SET_LOGGEDIN, payload: false });
-        })
-        .catch(e => reject(e));
-    };
-  });
+  return dispatch => {
+    auth()
+      .signOut()
+      .then(() => {
+        dispatch({ type: CONSTANTS.SET_LOGGEDIN, payload: false });
+      })
+      .catch(e => dispatch({ type: CONSTANTS.SET_ERROR, payload: e.message }));
+  };
 }
 
 export function signIn(email, password) {
@@ -113,34 +109,37 @@ export function updateEmail(email) {
 }
 
 export function updatePassword(newPassword) {
-  return new Promise((resolve, reject) => {
+  return dispatch => {
     auth()
       .currentUser.updatePassword(newPassword)
       .then(() => {
-        resolve({ passwordChanged: true });
+        dispatch({
+          type: CONSTANTS.SET_MESSAGE,
+          payload: I18t.t('messsages.passwordChanged'),
+        });
       })
-      .catch(e => reject(e));
-  });
+      .catch(e => dispatch({ type: CONSTANTS.SET_ERROR, payload: e.message }));
+  };
 }
 
 export function updatePasswordResendEmail(email) {
-  return new Promise((resolve, reject) => {
+  return dispatch => {
     auth()
       .sendPasswordResetEmail(email)
       .then(() => {
-        resolve({ emailSent: true });
+        dispatch({
+          type: CONSTANTS.SET_MESSAGE,
+          payload: I18t.t('messages.passwordChangedEmailSent'),
+        });
       })
-      .catch(e => reject(e));
-  });
+      .catch(e => dispatch({ type: CONSTANTS.SET_ERROR, payload: e.message }));
+  };
 }
 
-export function reAuthenticateUserAndChangePassword(
-  email,
-  oldPassword,
-  newPassword,
-) {
-  return new Promise((resolve, reject) => {
+export function reAuthenticateUserAndChangePassword(oldPassword, newPassword) {
+  return (dispatch, getState) => {
     const user = auth().currentUser;
+    const { email } = getState().firebaseAuth.userProfile;
     const credential = auth.EmailAuthProvider.credential(email, oldPassword);
     user
       .reauthenticateWithCredential(credential)
@@ -148,48 +147,52 @@ export function reAuthenticateUserAndChangePassword(
         user
           .updatePassword(newPassword)
           .then(() => {
-            resolve({ passwordChange: true });
+            dispatch({
+              type: CONSTANTS.SET_MESSAGE,
+              payload: I18t.t('messages.passwordChanged'),
+            });
           })
           .catch(e => {
-            reject(e);
+            dispatch({ type: CONSTANTS.SET_ERROR, payload: e.message });
           });
       })
-      .catch(e => reject(e));
-  });
+      .catch(e => dispatch({ type: CONSTANTS.SET_ERROR, payload: e.message }));
+  };
 }
 
 export function reAuthenticateUserAndChangeEmail(email, password, newEmail) {
-  return new Promise((resolve, reject) => {
-    return dispatch => {
-      const user = auth().currentUser;
-      const credential = auth.EmailAuthProvider.credential(email, password);
-      user
-        .reauthenticateWithCredential(credential)
-        .then(() => {
-          user
-            .updateEmail(newEmail)
-            .then(() => {
-              resolve({ emailchanged: true });
-              dispatch({ type: CONSTANTS.SET_EMAIL, payload: newEmail });
-            })
-            .catch(e => {
-              reject(e);
+  return dispatch => {
+    const user = auth().currentUser;
+    const credential = auth.EmailAuthProvider.credential(email, password);
+    user
+      .reauthenticateWithCredential(credential)
+      .then(() => {
+        user
+          .updateEmail(newEmail)
+          .then(() => {
+            dispatch({
+              type: CONSTANTS.SET_MESSAGE,
+              payload: I18t.t('messages.emailChanged'),
             });
-        })
-        .catch(e => reject(e));
-    };
-  });
+            dispatch({ type: CONSTANTS.SET_EMAIL, payload: newEmail });
+          })
+          .catch(e => {
+            dispatch({ type: CONSTANTS.SET_ERROR, payload: e.message });
+          });
+      })
+      .catch(e => dispatch({ type: CONSTANTS.SET_ERROR, payload: e.message }));
+  };
 }
 
 export function deleteCurrentUser() {
-  return new Promise((resolve, reject) => {
+  return dispatch => {
     auth()
       .currentUser.delete()
       .then(() => {
-        resolve({ userDeleted: true });
+        dispatch({ type: CONSTANTS.SET_LOGGEDIN, payload: false });
       })
-      .catch(e => reject(e));
-  });
+      .catch(e => dispatch({ type: CONSTANTS.SET_ERROR, payload: e.message }));
+  };
 }
 
 export default function FirebaseAuthStateReducer(

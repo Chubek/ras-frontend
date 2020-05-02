@@ -2,14 +2,7 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
 import { Col, Row, Grid } from 'react-native-easy-grid';
-import {
-  Tooltip,
-  Icon,
-  Input,
-  Image,
-  Text,
-  Button,
-} from 'react-native-elements';
+import { Tooltip, Icon, Input, Text, Button } from 'react-native-elements';
 import ClosableMessage from '../stateless/ClosableMessage';
 import I18t from '../../translations';
 import { emailPattern } from '../../helpers';
@@ -18,7 +11,7 @@ export default class RegisterPageComponent extends Component {
   state = {
     email: null,
     password: null,
-    showError: true,
+    showError: false,
     emailIsValid: 'times',
   };
 
@@ -30,6 +23,7 @@ export default class RegisterPageComponent extends Component {
     }
     if (nextProps.userSignedIn) {
       this.props.navigation.navigate('ResumeCatalogueScreen');
+      this.props.setProfile();
     }
   }
 
@@ -100,7 +94,7 @@ export default class RegisterPageComponent extends Component {
             </Tooltip>
           </Col>
         </Row>
-        <Row size={50}>
+        <Row size={10}>
           <Col>
             <Button
               icon={{
