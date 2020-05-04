@@ -10,34 +10,65 @@ import HamburgerButton from '../components/stateless/HamburgerButton';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import ChangePasswordScreen from '../screens/ChangePasswordScreen';
-
+import ResumeEditScreen from '../screens/ResumeEditScreen';
+import ResumeEditComponent from '../components/stateful/ResumeEditComponent';
 import ModalComponent from '../components/stateless/ModalComponent';
 
 const Stack = createStackNavigator();
 const Root = createDrawerNavigator();
+const Auth = createStackNavigator();
+const Resume = createStackNavigator();
 
-function NavigationStack() {
+function AuthNavigator() {
   return (
-    <Stack.Navigator initialRouteName="LoginScreen">
-      {/* ScreenNames */}
-      <Stack.Screen
+    <Auth.Navigator initialRouteName="LoginScreen">
+      <Auth.Screen
         name="LoginScreen"
         component={LoginScreen}
         options={({ navigation }) => ({
           title: 'Login',
-          headerRight: () => <HamburgerButton navigation={navigation} />,
+          headerLeft: () => <HamburgerButton navigation={navigation} />,
         })}
       />
 
-      <Stack.Screen
+      <Auth.Screen
         name="RegisterScreen"
         component={RegisterScreen}
         options={{ title: 'Register' }}
       />
-      <Stack.Screen
+      <Auth.Screen
         name="UpdatePasswordScreen"
         component={ChangePasswordScreen}
         options={{ title: 'Change Password' }}
+      />
+    </Auth.Navigator>
+  );
+}
+
+function ResumeNavigator() {
+  return (
+    <Resume.Navigator initialRouteName="EditResumeScreen">
+      <Resume.Screen
+        name="EditResumeScreen"
+        component={ResumeEditScreen}
+        options={{ title: 'Edit Resume' }}
+      />
+    </Resume.Navigator>
+  );
+}
+
+function NavigationStack() {
+  return (
+    <Stack.Navigator initialRouteName="Resume">
+      <Stack.Screen
+        name="Auth"
+        component={AuthNavigator}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Resume"
+        component={ResumeNavigator}
+        options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );

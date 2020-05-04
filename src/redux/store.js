@@ -30,11 +30,10 @@ const composeEnhancers =
 eslint-enable no-undef */
 
 const enhancerComposer = composeWithDevTools({
+  name: 'Android app',
   realtime: true,
-  name: 'Resume as a Service - Redux',
   hostname: 'localhost',
   port: 8000,
-  suppressConnectErrors: false,
 });
 
 const enhancer = enhancerComposer(

@@ -19,5 +19,23 @@
         "oldPass": "Current Password",
         "newPass": "New Password",
         "updatePass": "Update Password"
+    },
+    "resumeHeaders": {
+        "contact": "Contact Information",
+        "sumObj": "Summary & Objective",
+        "histExp": "Work History & Experience",
+        "skills": "Skills",
+        "degCert": "Degrees & Certifications",
+        "awards": "Awards & Achievements",
+        "volunteer": "Volunteer Work"
+    },
+    "resumeEditLabels": {
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "email": "Email",
+        "phoneNumber": "Phone Number",
+        "state": "State",
+        "city": "City",
+        "zipCode": "Zip Code"
     }
 }

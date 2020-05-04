@@ -1,25 +1,34 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Col, Row, Grid } from 'react-native-easy-grid';
-import { Text, Icon, Button } from 'react-native-elements';
+import { View, Text } from 'react-native';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
+import { ListItem } from 'react-native-elements';
+
 import { signOut } from '../../modules/firebase-auth/FirebaseAuthState';
-import {
-  createDrawerNavigator,
-  DrawerContentScrollView,
-  DrawerItemList,
-  DrawerItem,
-} from '@react-navigation/drawer';
+
+const list = [
+  {
+    key: Math.random(),
+    label: 'Sign Out',
+    action: () => signOut(),
+    icon: { type: 'font-awesome', name: 'sign-out' },
+  },
+];
 
 function ModalComponent({ navigation, userSignedIn, signOut }) {
   const greetings = userSignedIn ? 'Signed In' : 'Guest';
   return (
-    <Grid>
-          <Text> {greetings} </Text>
-      <Button title="Logout" onPress={() => signOut()} />
-      <Button title="Dismiss" onPress={() => navigation.goBack()} />
-    </Grid>
+    <View>
+      {list.map((l, i) => (
+        <ListItem
+          key={l.key}
+          leftIcon={l.icon}
+          title={l.label}
+          onPress={() => signOut()}
+          bottomDivider
+        />
+      ))}
+    </View>
   );
 }
 

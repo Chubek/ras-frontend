@@ -1,6 +1,5 @@
 /* Authored by Chubak Bidpaa: chubakbidpaa@gmail.com - 2020 - Corona Times */
 import axios from 'axios';
-import AsyncStorage from '@react-native-community/async-storage';
 import faker from 'faker';
 import * as helpers from '../../helpers';
 import * as CONSTANTS from './ResumeConstants';
@@ -45,23 +44,19 @@ const initialState = {
 
 //  thunk actions
 export function getSingleResume(resumeId) {
-  return new Promise((resolve, reject) => {
-    return dispatch => {
-      axios
-        .get(`${globalStr.erverUrl}/resume/get/single/${resumeId}`, {
-          headers: { 'x-auth-user': helpers.getUserToken() },
-        })
-        .then(res => {
-          const { resumeDoc } = res.data;
-          resolve({ message: 'Resume fetched', result: resumeDoc });
-          dispatch({ type: CONSTANTS.FETCH_RESUME, payload: resumeDoc });
-        })
-        .catch(e => {
-          reject(e);
-          helpers.showErrorMessage(e);
-        });
-    };
-  });
+  return dispatch => {
+    axios
+      .get(`${globalStr.erverUrl}/resume/get/single/${resumeId}`, {
+        headers: { 'x-auth-user': helpers.getUserToken() },
+      })
+      .then(res => {
+        const { resumeDoc } = res.data;
+        dispatch({ type: CONSTANTS.FETCH_RESUME, payload: resumeDoc });
+      })
+      .catch(e => {
+        helpers.showErrorMessage(e);
+      });
+  };
 }
 
 export function createResume(resumeName) {
@@ -69,37 +64,30 @@ export function createResume(resumeName) {
   if (!resumeNameVar) {
     resumeNameVar = faker.name.jobDescriptor();
   }
+  return dispatch => {
+    axios
+      .post(
+        `${globalStr.serverUrl}/resume/create/`,
+        { resumeName: resumeNameVar },
+        {
+          headers: { 'x-auth-user': helpers.getUserToken() },
+        },
+      )
+      .then(res => {
+        const { resumeId } = res.data.resumeId;
+        helpers.showSuccessMessage(
+          `Resume ${resumeNameVar} successfully created.`,
+        );
 
-  return new Promise((resolve, reject) => {
-    return dispatch => {
-      axios
-        .post(
-          `${globalStr.serverUrl}/resume/create/`,
-          { resumeName: resumeNameVar },
-          {
-            headers: { 'x-auth-user': helpers.getUserToken() },
-          },
-        )
-        .then(res => {
-          const { resumeId } = res.data.resumeId;
-          helpers.showSuccessMessage(
-            `Resume ${resumeNameVar} successfully created.`,
-          );
-          resolve({
-            message: 'Created',
-            result: { name: resumeNameVar, id: resumeId },
-          });
-          dispatch({
-            type: CONSTANTS.SET_CREATION_INFO,
-            payload: { name: resumeNameVar, id: resumeId },
-          });
-        })
-        .catch(e => {
-          helpers.showErrorMessage(e);
-          reject(e);
+        dispatch({
+          type: CONSTANTS.SET_CREATION_INFO,
+          payload: { name: resumeNameVar, id: resumeId },
         });
-    };
-  });
+      })
+      .catch(e => {
+        helpers.showErrorMessage(e);
+      });
+  };
 }
 
 export function setContactInfo(contactInfo) {
@@ -125,38 +113,34 @@ export function setContactInfo(contactInfo) {
     helpers.showErrorMessage('Some data are not entered!');
     return false;
   }
+  return (dispatch, getState) => {
+    const { resumeId } = getState().resume;
 
-  return new Promise((resolve, reject) => {
-    return (dispatch, getState) => {
-      const { resumeId } = getState().resume;
+    axios
+      .put(
+        `${globalStr.serverUrl}/resume/set/contacts/${resumeId}`,
+        contactInfo,
+        {
+          headers: { 'x-auth-user': helpers.getUserToken() },
+        },
+      )
+      .then(res => {
+        const { resumeUpdated } = res.data;
+        if (resumeUpdated) {
+          helpers.showSuccessMessage(
+            `Resume contact info updated successfully.`,
+          );
 
-      axios
-        .put(
-          `${globalStr.serverUrl}/resume/set/contacts/${resumeId}`,
-          contactInfo,
-          {
-            headers: { 'x-auth-user': helpers.getUserToken() },
-          },
-        )
-        .then(res => {
-          const { resumeUpdated } = res.data;
-          if (resumeUpdated) {
-            helpers.showSuccessMessage(
-              `Resume contact info updated successfully.`,
-            );
-            resolve({ message: 'Updated' });
-            dispatch({
-              type: CONSTANTS.SET_CONTACT_INFO,
-              payload: contactInfo,
-            });
-          }
-        })
-        .catch(e => {
-          helpers.showErrorMessage(e);
-          reject(e);
-        });
-    };
-  });
+          dispatch({
+            type: CONSTANTS.SET_CONTACT_INFO,
+            payload: contactInfo,
+          });
+        }
+      })
+      .catch(e => {
+        helpers.showErrorMessage(e);
+      });
+  };
 }
 
 export function setSummaryObjective(summaryObjective) {
@@ -166,38 +150,34 @@ export function setSummaryObjective(summaryObjective) {
     helpers.showErrorMessage('Some data are not entered!');
     return false;
   }
+  return (dispatch, getState) => {
+    const { resumeId } = getState().resume;
 
-  return new Promise((resolve, reject) => {
-    return (dispatch, getState) => {
-      const { resumeId } = getState().resume;
+    axios
+      .put(
+        `${globalStr.serverUrl}/resume/set/summary/${resumeId}`,
+        summaryObjective,
+        {
+          headers: { 'x-auth-user': helpers.getUserToken() },
+        },
+      )
+      .then(res => {
+        const { resumeUpdated } = res.data;
+        if (resumeUpdated) {
+          helpers.showSuccessMessage(
+            `Resume summary and objectives updated successfully.`,
+          );
 
-      axios
-        .put(
-          `${globalStr.serverUrl}/resume/set/summary/${resumeId}`,
-          summaryObjective,
-          {
-            headers: { 'x-auth-user': helpers.getUserToken() },
-          },
-        )
-        .then(res => {
-          const { resumeUpdated } = res.data;
-          if (resumeUpdated) {
-            helpers.showSuccessMessage(
-              `Resume summary and objectives updated successfully.`,
-            );
-            resolve({ message: 'Updated' });
-            dispatch({
-              type: CONSTANTS.SET_SUMMARY_OBJECTIVE,
-              payload: summaryObjective,
-            });
-          }
-        })
-        .catch(e => {
-          helpers.showErrorMessage(e);
-          reject(e);
-        });
-    };
-  });
+          dispatch({
+            type: CONSTANTS.SET_SUMMARY_OBJECTIVE,
+            payload: summaryObjective,
+          });
+        }
+      })
+      .catch(e => {
+        helpers.showErrorMessage(e);
+      });
+  };
 }
 
 export function appendHistory(newHistory) {
@@ -213,36 +193,32 @@ export function appendHistory(newHistory) {
     helpers.showErrorMessage('Some data are not entered!');
     return false;
   }
+  return (dispatch, getState) => {
+    const { resumeId } = getState().resume;
 
-  return new Promise((resolve, reject) => {
-    return (dispatch, getState) => {
-      const { resumeId } = getState().resume;
+    axios
+      .put(
+        `${globalStr.serverUrl}/resume/append/history/${resumeId}`,
+        newHistory,
+        {
+          headers: { 'x-auth-user': helpers.getUserToken() },
+        },
+      )
+      .then(res => {
+        const { resumeUpdated } = res.data;
+        if (resumeUpdated) {
+          helpers.showSuccessMessage(`Resume history appended successfully.`);
 
-      axios
-        .put(
-          `${globalStr.serverUrl}/resume/append/history/${resumeId}`,
-          newHistory,
-          {
-            headers: { 'x-auth-user': helpers.getUserToken() },
-          },
-        )
-        .then(res => {
-          const { resumeUpdated } = res.data;
-          if (resumeUpdated) {
-            helpers.showSuccessMessage(`Resume history appended successfully.`);
-            resolve({ message: 'Updated' });
-            dispatch({
-              type: CONSTANTS.APPEND_HISTORY,
-              payload: newHistory,
-            });
-          }
-        })
-        .catch(e => {
-          helpers.showErrorMessage(e);
-          reject(e);
-        });
-    };
-  });
+          dispatch({
+            type: CONSTANTS.APPEND_HISTORY,
+            payload: newHistory,
+          });
+        }
+      })
+      .catch(e => {
+        helpers.showErrorMessage(e);
+      });
+  };
 }
 
 export function appendTechSkills(newSkills) {
@@ -252,38 +228,34 @@ export function appendTechSkills(newSkills) {
     helpers.showErrorMessage('Some data are not entered!');
     return false;
   }
+  return (dispatch, getState) => {
+    const { resumeId } = getState().resume;
 
-  return new Promise((resolve, reject) => {
-    return (dispatch, getState) => {
-      const { resumeId } = getState().resume;
+    axios
+      .put(
+        `${globalStr.serverUrl}/resume/append/techskills/${resumeId}`,
+        newSkills,
+        {
+          headers: { 'x-auth-user': helpers.getUserToken() },
+        },
+      )
+      .then(res => {
+        const { resumeUpdated } = res.data;
+        if (resumeUpdated) {
+          helpers.showSuccessMessage(
+            `Resume tech skills appended successfully.`,
+          );
 
-      axios
-        .put(
-          `${globalStr.serverUrl}/resume/append/techskills/${resumeId}`,
-          newSkills,
-          {
-            headers: { 'x-auth-user': helpers.getUserToken() },
-          },
-        )
-        .then(res => {
-          const { resumeUpdated } = res.data;
-          if (resumeUpdated) {
-            helpers.showSuccessMessage(
-              `Resume tech skills appended successfully.`,
-            );
-            resolve({ message: 'Updated' });
-            dispatch({
-              type: CONSTANTS.APPEND_SKILLS,
-              payload: newSkills,
-            });
-          }
-        })
-        .catch(e => {
-          helpers.showErrorMessage(e);
-          reject(e);
-        });
-    };
-  });
+          dispatch({
+            type: CONSTANTS.APPEND_SKILLS,
+            payload: newSkills,
+          });
+        }
+      })
+      .catch(e => {
+        helpers.showErrorMessage(e);
+      });
+  };
 }
 
 export function appendSoftwareSkills(newSkills) {
@@ -334,38 +306,34 @@ export function appendDegrees(newDegree) {
     helpers.showErrorMessage('Some data are not entered!');
     return false;
   }
+  return (dispatch, getState) => {
+    const { resumeId } = getState().resume;
 
-  return new Promise((resolve, reject) => {
-    return (dispatch, getState) => {
-      const { resumeId } = getState().resume;
+    axios
+      .put(
+        `${globalStr.serverUrl}/resume/append/degrees/${resumeId}`,
+        newDegree,
+        {
+          headers: { 'x-auth-user': helpers.getUserToken() },
+        },
+      )
+      .then(res => {
+        const { resumeUpdated } = res.data;
+        if (resumeUpdated) {
+          helpers.showSuccessMessage(
+            `Resume software skills appended successfully.`,
+          );
 
-      axios
-        .put(
-          `${globalStr.serverUrl}/resume/append/degrees/${resumeId}`,
-          newDegree,
-          {
-            headers: { 'x-auth-user': helpers.getUserToken() },
-          },
-        )
-        .then(res => {
-          const { resumeUpdated } = res.data;
-          if (resumeUpdated) {
-            helpers.showSuccessMessage(
-              `Resume software skills appended successfully.`,
-            );
-            resolve({ message: 'Updated' });
-            dispatch({
-              type: CONSTANTS.APPEND_DEGREES,
-              payload: newDegree,
-            });
-          }
-        })
-        .catch(e => {
-          helpers.showErrorMessage(e);
-          reject(e);
-        });
-    };
-  });
+          dispatch({
+            type: CONSTANTS.APPEND_DEGREES,
+            payload: newDegree,
+          });
+        }
+      })
+      .catch(e => {
+        helpers.showErrorMessage(e);
+      });
+  };
 }
 
 export function appendCerts(newCert) {
@@ -376,37 +344,30 @@ export function appendCerts(newCert) {
     return false;
   }
 
-  return new Promise((resolve, reject) => {
-    return (dispatch, getState) => {
-      const { resumeId } = getState().resume;
+  return (dispatch, getState) => {
+    const { resumeId } = getState().resume;
 
-      axios
-        .put(
-          `${globalStr.serverUrl}/resume/append/certs/${resumeId}`,
-          newCert,
-          {
-            headers: { 'x-auth-user': helpers.getUserToken() },
-          },
-        )
-        .then(res => {
-          const { resumeUpdated } = res.data;
-          if (resumeUpdated) {
-            helpers.showSuccessMessage(
-              `Resume certifications appended successfully.`,
-            );
-            resolve({ message: 'Updated' });
-            dispatch({
-              type: CONSTANTS.APPEND_CERTS,
-              payload: newCert,
-            });
-          }
-        })
-        .catch(e => {
-          helpers.showErrorMessage(e);
-          reject(e);
-        });
-    };
-  });
+    axios
+      .put(`${globalStr.serverUrl}/resume/append/certs/${resumeId}`, newCert, {
+        headers: { 'x-auth-user': helpers.getUserToken() },
+      })
+      .then(res => {
+        const { resumeUpdated } = res.data;
+        if (resumeUpdated) {
+          helpers.showSuccessMessage(
+            `Resume certifications appended successfully.`,
+          );
+
+          dispatch({
+            type: CONSTANTS.APPEND_CERTS,
+            payload: newCert,
+          });
+        }
+      })
+      .catch(e => {
+        helpers.showErrorMessage(e);
+      });
+  };
 }
 
 export function appendAwards(newAward) {
@@ -417,35 +378,32 @@ export function appendAwards(newAward) {
     return false;
   }
 
-  return new Promise((resolve, reject) => {
-    return (dispatch, getState) => {
-      const { resumeId } = getState().resume;
+  return (dispatch, getState) => {
+    const { resumeId } = getState().resume;
 
-      axios
-        .put(
-          `${globalStr.serverUrl}/resume/append/awards/${resumeId}`,
-          newAward,
-          {
-            headers: { 'x-auth-user': helpers.getUserToken() },
-          },
-        )
-        .then(res => {
-          const { resumeUpdated } = res.data;
-          if (resumeUpdated) {
-            helpers.showSuccessMessage(`Resume awards appended successfully.`);
-            resolve({ message: 'Updated' });
-            dispatch({
-              type: CONSTANTS.APPEND_AWARDS,
-              payload: newAward,
-            });
-          }
-        })
-        .catch(e => {
-          helpers.showErrorMessage(e);
-          reject(e);
-        });
-    };
-  });
+    axios
+      .put(
+        `${globalStr.serverUrl}/resume/append/awards/${resumeId}`,
+        newAward,
+        {
+          headers: { 'x-auth-user': helpers.getUserToken() },
+        },
+      )
+      .then(res => {
+        const { resumeUpdated } = res.data;
+        if (resumeUpdated) {
+          helpers.showSuccessMessage(`Resume awards appended successfully.`);
+
+          dispatch({
+            type: CONSTANTS.APPEND_AWARDS,
+            payload: newAward,
+          });
+        }
+      })
+      .catch(e => {
+        helpers.showErrorMessage(e);
+      });
+  };
 }
 
 export function appendVolunteerings(newVolunteering) {
@@ -456,37 +414,34 @@ export function appendVolunteerings(newVolunteering) {
     return false;
   }
 
-  return new Promise((resolve, reject) => {
-    return (dispatch, getState) => {
-      const { resumeId } = getState().resume;
+  return (dispatch, getState) => {
+    const { resumeId } = getState().resume;
 
-      axios
-        .put(
-          `${globalStr.serverUrl}/resume/append/awards/${resumeId}`,
-          newVolunteering,
-          {
-            headers: { 'x-auth-user': helpers.getUserToken() },
-          },
-        )
-        .then(res => {
-          const { resumeUpdated } = res.data;
-          if (resumeUpdated) {
-            helpers.showSuccessMessage(
-              `Resume volunteerings appended successfully.`,
-            );
-            resolve({ message: 'Updated' });
-            dispatch({
-              type: CONSTANTS.APPEND_VOLUNTEERING,
-              payload: newVolunteering,
-            });
-          }
-        })
-        .catch(e => {
-          helpers.showErrorMessage(e);
-          reject(e);
-        });
-    };
-  });
+    axios
+      .put(
+        `${globalStr.serverUrl}/resume/append/awards/${resumeId}`,
+        newVolunteering,
+        {
+          headers: { 'x-auth-user': helpers.getUserToken() },
+        },
+      )
+      .then(res => {
+        const { resumeUpdated } = res.data;
+        if (resumeUpdated) {
+          helpers.showSuccessMessage(
+            `Resume volunteerings appended successfully.`,
+          );
+
+          dispatch({
+            type: CONSTANTS.APPEND_VOLUNTEERING,
+            payload: newVolunteering,
+          });
+        }
+      })
+      .catch(e => {
+        helpers.showErrorMessage(e);
+      });
+  };
 }
 
 export function restoreToCapture(editDate) {
@@ -495,35 +450,32 @@ export function restoreToCapture(editDate) {
     return false;
   }
 
-  return new Promise((resolve, reject) => {
-    return (dispatch, getState) => {
-      const { resumeId } = getState().resume;
+  return (dispatch, getState) => {
+    const { resumeId } = getState().resume;
 
-      axios
-        .put(
-          `${globalStr.serverUrl}/resume/restore/to/capture/${resumeId}`,
-          editDate,
-          {
-            headers: { 'x-auth-user': helpers.getUserToken() },
-          },
-        )
-        .then(res => {
-          const { resumeRestored, resumeDoc } = res.data;
-          if (resumeRestored) {
-            helpers.showSuccessMessage(`Resume restored successfully.`);
-            resolve({ message: 'Restored', result: resumeDoc });
-            dispatch({
-              type: CONSTANTS.RESTORE_TO_CAPTURE,
-              payload: resumeDoc,
-            });
-          }
-        })
-        .catch(e => {
-          helpers.showErrorMessage(e);
-          reject(e);
-        });
-    };
-  });
+    axios
+      .put(
+        `${globalStr.serverUrl}/resume/restore/to/capture/${resumeId}`,
+        editDate,
+        {
+          headers: { 'x-auth-user': helpers.getUserToken() },
+        },
+      )
+      .then(res => {
+        const { resumeRestored, resumeDoc } = res.data;
+        if (resumeRestored) {
+          helpers.showSuccessMessage(`Resume restored successfully.`);
+
+          dispatch({
+            type: CONSTANTS.RESTORE_TO_CAPTURE,
+            payload: resumeDoc,
+          });
+        }
+      })
+      .catch(e => {
+        helpers.showErrorMessage(e);
+      });
+  };
 }
 
 export function deleteResume(resumeId) {

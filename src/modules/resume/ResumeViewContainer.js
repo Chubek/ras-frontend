@@ -1,18 +1,15 @@
-import { compose } from "recompose";
-import { connect } from "react-redux";
-
-import ResumeView from "./ResumeView";
-import { thunkFunc } from "./ResumeState";
+import { compose } from 'recompose';
+import { connect } from 'react-redux';
+import { deleteResume } from './ResumeState';
+import ResumeView from './ResumeView';
 
 export default compose(
   connect(
-    (state) => ({
-      stateOne: state.stateOne,
-      stateTwo: state.stateTwo,
-      stateThree: state.stateThree,
+    state => ({
+      resumeId: state.resume.resumeId,
     }),
-    (dispatch) => ({
-      thunkFunc: (arg) => dispatch(thunkFunc(arg)),
-    })
-  )
+    dispatch => ({
+      deleteResume: id => dispatch(deleteResume(id)),
+    }),
+  ),
 )(ResumeView);

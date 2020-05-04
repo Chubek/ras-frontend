@@ -3,15 +3,14 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 
+import ResumeEditComponent from '../../components/stateful/ResumeEditComponent';
+
 export default class ResumeView extends Component {
   state = {};
 
   render() {
-    return (
-      <View style={styles.container}>
-        <Text> This is the Resume component. </Text>
-      </View>
-    );
+    const { navigation } = this.props;
+    return <ResumeEditComponent navigation={navigation} />;
   }
 }
 
