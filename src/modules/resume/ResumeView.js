@@ -3,14 +3,20 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import ResumeEditComponent from '../../components/stateful/ResumeEditComponent';
+import ResumeCreationComponent from '../../components/stateful/ResumeComponents/ResumeCreationComponent';
 
 export default class ResumeView extends Component {
   state = {};
 
   render() {
-    const { navigation } = this.props;
-    return <ResumeEditComponent navigation={navigation} />;
+    const { navigation, switcher, resumeId } = this.props;
+    if (switcher === 'resumeCreate') {
+      return (
+        <ResumeCreationComponent navigation={navigation} resumeId={resumeId} />
+      );
+    }
+
+    return false;
   }
 }
 

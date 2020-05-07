@@ -20,6 +20,10 @@
         "newPass": "New Password",
         "updatePass": "Update Password"
     },
+    "resumeCreation": {
+        "resumeName": "Resume Name",
+        "create": "Create Resume"
+    },
     "resumeHeaders": {
         "contact": "Contact Information",
         "sumObj": "Summary & Objective",
@@ -30,12 +34,75 @@
         "volunteer": "Volunteer Work"
     },
     "resumeEditLabels": {
+        "header": "Contact Info",
+        "tooltip": "Fill your contact info here",
         "firstName": "First Name",
         "lastName": "Last Name",
         "email": "Email",
         "phoneNumber": "Phone Number",
         "state": "State",
+        "unselectedState": "Not Selected",
         "city": "City",
         "zipCode": "Zip Code"
+    },
+    "objectiveLabels": {
+        "header": "Summary and Objective",
+        "tooltip": "Enter summary and objective here",
+        "objective": "Objective",
+        "summary": "Summary",
+        "bluf": "BLUF",
+        "objectiveToolTip": "Edit it",
+        "summaryToolTip": "Edit it",
+        "blufToolTip": "Edit it"
+    },
+    "historyLabels": {
+        "header": "History and Experience",
+        "tooltip": "Enter history and experience",
+        "companyName": "Company Name",
+        "location": "Location",
+        "datesFrom": "From...",
+        "datesTo": "To...",
+        "duties": "Duties and Tasks"
+
+    },
+
+    "resumeTiles": {
+        "contact": {
+            "title": "Contact Info",
+            "subtitle": "Placeholder"
+        },
+        "objective": {
+            "title": "Summary and Objective",
+            "subtitle": "Placeholder"
+        },
+        "historyExp": {
+            "title": "History & Experience",
+            "subtitle": "Placeholder"
+        },
+        "techSkills": {
+            "title": "Technical Skills",
+            "subtitle": "Placeholder"
+        },
+        "softwareSkills": {
+            "title": "Software Skills",
+            "subtitle": "Placeholder"
+        },
+        "degrees": {
+            "title": "Degrees",
+            "subtitle": "Placeholder"
+        },
+        "certifications": {
+            "title": "Certifications",
+            "subtitle": "Placeholder"
+        },
+        "awardsAchievements": {
+            "title": "Awards & Achievements",
+            "subtitle": "Placeholder"
+        },
+        "volunteerings": {
+            "title": "Volunteerings",
+            "subtitle": "Placeholder"
+        }
+
     }
 }

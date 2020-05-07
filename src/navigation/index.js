@@ -10,9 +10,9 @@ import HamburgerButton from '../components/stateless/HamburgerButton';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import ChangePasswordScreen from '../screens/ChangePasswordScreen';
-import ResumeEditScreen from '../screens/ResumeEditScreen';
-import ResumeEditComponent from '../components/stateful/ResumeEditComponent';
+import ResumeCreationScreen from '../screens/ResumeCreationScreen';
 import ModalComponent from '../components/stateless/ModalComponent';
+import ResumeCreationHomeScreen from '../screens/ResumeCreationHomeScreen';
 
 const Stack = createStackNavigator();
 const Root = createDrawerNavigator();
@@ -47,11 +47,17 @@ function AuthNavigator() {
 
 function ResumeNavigator() {
   return (
-    <Resume.Navigator initialRouteName="EditResumeScreen">
+    <Resume.Navigator initialRouteName="ResumeCreationHomeScreen">
       <Resume.Screen
-        name="EditResumeScreen"
-        component={ResumeEditScreen}
-        options={{ title: 'Edit Resume' }}
+        name="ResumeCreationScreen"
+        component={ResumeCreationScreen}
+        options={{ title: 'Create Resume' }}
+      />
+      <Resume.Screen
+        name="ResumeCreationHomeScreen"
+        component={ResumeCreationHomeScreen}
+        options={{ title: 'Select a Section' }}
+        initialParams={{ resumeId: '0' }}
       />
     </Resume.Navigator>
   );

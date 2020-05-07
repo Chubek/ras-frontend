@@ -6,5 +6,5 @@ import ResumeView from '../modules/resume/ResumeView';
 
 export default function ResumeEditScreen() {
   const navigation = useNavigation();
-  return <ResumeView navigation={navigation} />;
+  return <ResumeView navigation={navigation} switcher="resumeCreate" />;
 }
