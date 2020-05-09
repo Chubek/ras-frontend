@@ -13,6 +13,7 @@ import ChangePasswordScreen from '../screens/ChangePasswordScreen';
 import ResumeCreationScreen from '../screens/ResumeCreationScreen';
 import ModalComponent from '../components/stateless/ModalComponent';
 import ResumeCreationHomeScreen from '../screens/ResumeCreationHomeScreen';
+import TechnicalSkillsListScreen from '../screens/TechnicalSkillsListScreen';
 
 const Stack = createStackNavigator();
 const Root = createDrawerNavigator();
@@ -47,7 +48,7 @@ function AuthNavigator() {
 
 function ResumeNavigator() {
   return (
-    <Resume.Navigator initialRouteName="ResumeCreationHomeScreen">
+    <Resume.Navigator initialRouteName="TechnicalSkillsListScreen">
       <Resume.Screen
         name="ResumeCreationScreen"
         component={ResumeCreationScreen}
@@ -57,6 +58,12 @@ function ResumeNavigator() {
         name="ResumeCreationHomeScreen"
         component={ResumeCreationHomeScreen}
         options={{ title: 'Select a Section' }}
+        initialParams={{ resumeId: '0' }}
+      />
+      <Resume.Screen
+        name="TechnicalSkillsListScreen"
+        component={TechnicalSkillsListScreen}
+        options={{ title: 'Add a Technical Skill' }}
         initialParams={{ resumeId: '0' }}
       />
     </Resume.Navigator>

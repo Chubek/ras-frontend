@@ -24,49 +24,62 @@ export default function ResumeCreationHomeComponent({ route, navigation }) {
       name: 'contact',
       screenName: 'ContactSectionScreen',
       image: require('../../../../assets/images/placeholder.png'),
+      icon: 'address-book',
     },
     {
       id: uuid(),
       name: 'objective',
       screenName: 'ObjectiveSecionScreen',
       image: require('../../../../assets/images/placeholder.png'),
+      icon: 'bullseye',
     },
     {
       id: uuid(),
       name: 'historyExp',
       screenName: 'HistoryExperienceSectionScreen',
       image: require('../../../../assets/images/placeholder.png'),
+      icon: 'briefcase',
     },
     {
       id: uuid(),
       name: 'techSkills',
       screenName: 'TechSkillsSectionScreen',
       image: require('../../../../assets/images/placeholder.png'),
+      icon: 'wrench',
     },
     {
       id: uuid(),
       name: 'softwareSkills',
       screenName: 'SoftwareSkillsSectionScreen',
       image: require('../../../../assets/images/placeholder.png'),
+      icon: 'laptop',
     },
     {
       id: uuid(),
       name: 'degrees',
       screenName: 'DegreesSectionScreen',
       image: require('../../../../assets/images/placeholder.png'),
+      icon: 'university',
     },
-    { id: uuid(), name: 'certifications', screenName: 'Certifications' },
+    {
+      id: uuid(),
+      name: 'certifications',
+      screenName: 'Certifications',
+      icon: 'certificate',
+    },
     {
       id: uuid(),
       name: 'awardsAchievements',
       screenName: 'AwardsAchievementsSectionScreen',
       image: require('../../../../assets/images/placeholder.png'),
+      icon: 'trophy',
     },
     {
       id: uuid(),
       name: 'volunteerings',
       screenName: 'VolunteeringSectionScreen',
       image: require('../../../../assets/images/placeholder.png'),
+      icon: 'heart',
     },
   ];
 
@@ -78,9 +91,8 @@ export default function ResumeCreationHomeComponent({ route, navigation }) {
     rows[i % 3].push(
       <Col size={3}>
         <TileComponent
-          icon={{ name: 'play-circle', type: 'font-awesome' }}
+          icon={l.icon}
           title={I18t.t(`resumeTiles.${l.name}.title`)}
-          subtitle={I18t.t(`resumeTiles.${l.name}.subtitle`)}
           onPress={() =>
             navigation.navigate(l.screenName, { params: { resumeId } })
           }
@@ -90,7 +102,7 @@ export default function ResumeCreationHomeComponent({ route, navigation }) {
   });
 
   return (
-    <Grid>
+    <Grid style={{ marginTop: -5, marginLeft: -8 }}>
       {rows.map(r => {
         return <Row>{r}</Row>;
       })}

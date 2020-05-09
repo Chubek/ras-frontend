@@ -104,5 +104,11 @@
             "subtitle": "Placeholder"
         }
 
+    },
+    "techSkills": {
+        "skillName": "Skill Name",
+        "proficiency": "Proficiency",
+        "importance": "Importance"
     }
+
 }
