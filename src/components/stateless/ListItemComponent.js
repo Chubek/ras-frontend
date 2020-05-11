@@ -11,26 +11,35 @@ export default function ListItemComponent({
   textTwo,
   textThree,
   onPress,
+  numOf,
 }) {
   return (
     <TouchableHighlight
       style={{
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'space-evenly',
         alignItems: 'flex-start',
         borderRadius: 20,
         borderWidth: 10,
         padding: 10,
         backgroundColor: StringToColor(textOne),
-        height: '20%',
         width: '90%',
+        marginBottom: 5,
+        borderColor: 'purple',
+        justifyContent: 'space-around',
       }}
       onPress={onPress}
     >
-      <View>
-        <Text>{textOne}</Text>
-        <Text>{textTwo}</Text>
+      <View
+        style={{
+          flexDirection: 'column',
+          flex: 1,
+          justifyContent: 'space-around',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          flexGrow: 2,
+        }}
+      >
+        <Text>{textOne} | </Text>
+        <Text>{textTwo} | </Text>
         <Text>{textThree}</Text>
       </View>
     </TouchableHighlight>

@@ -109,6 +109,22 @@
         "skillName": "Skill Name",
         "proficiency": "Proficiency",
         "importance": "Importance"
+    },
+    "send": "Submit",
+    "remove": "Remove",
+    "skillLevels": {
+        "label": "Skill Level",
+        "very": "Very Skilled",
+        "enough": "Skilled Enough",
+        "adequate": "Adequate Skill",
+        "justLearned": "Just Learned"
+    },
+    "skillImportance": {
+        "label": "Skill Importance",
+        "very": "Very Important",
+        "normal": "Important",
+        "medium": "Medium Importance",
+        "sideHustle": "Side Hustle"
     }
 
 }
