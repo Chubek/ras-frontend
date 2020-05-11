@@ -5,7 +5,7 @@ import { StyleSheet, View } from 'react-native';
 
 import ResumeCreationComponent from '../../components/stateful/ResumeComponents/ResumeCreationComponent';
 import TechnicalSkillsListComponent from '../../components/stateful/ResumeComponents/TechnicalSkillsListComponent';
-
+import VolunteeringListComponent from '../../components/stateful/ResumeComponents/VolunteeringsListtComponent';
 export default class ResumeView extends Component {
   state = {};
 
@@ -19,6 +19,11 @@ export default class ResumeView extends Component {
     if (switcher === 'techSkills') {
       return (
         <TechnicalSkillsListComponent navigation={navigation} route={route} />
+      );
+    }
+    if (switcher === 'volunteerings') {
+      return (
+        <VolunteeringListComponent navigation={navigation} route={route} />
       );
     }
 

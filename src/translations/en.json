@@ -125,6 +125,11 @@
         "normal": "Important",
         "medium": "Medium Importance",
         "sideHustle": "Side Hustle"
+    },
+    "volunteerings": {
+        "tasksCompleted": "Tasks Completed",
+        "orgName": "Organization Name",
+        "dates": "Dates"
     }
 
 }
