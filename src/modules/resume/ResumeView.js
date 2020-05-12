@@ -6,6 +6,10 @@ import { StyleSheet, View } from 'react-native';
 import ResumeCreationComponent from '../../components/stateful/ResumeComponents/ResumeCreationComponent';
 import TechnicalSkillsListComponent from '../../components/stateful/ResumeComponents/TechnicalSkillsListComponent';
 import VolunteeringListComponent from '../../components/stateful/ResumeComponents/VolunteeringsListtComponent';
+import DegreeListComponent from '../../components/stateful/ResumeComponents/DegreesListComponent';
+import SoftwareSkillsListComponent from '../../components/stateful/ResumeComponents/SoftwareSkillsListComponent';
+import HistoryExperienceListComponent from '../../components/stateful/ResumeComponents/HistoryExperienceListComponent';
+
 export default class ResumeView extends Component {
   state = {};
 
@@ -24,6 +28,19 @@ export default class ResumeView extends Component {
     if (switcher === 'volunteerings') {
       return (
         <VolunteeringListComponent navigation={navigation} route={route} />
+      );
+    }
+    if (switcher === 'degree') {
+      return <DegreeListComponent navigation={navigation} route={route} />;
+    }
+    if (switcher === 'softwareSkills') {
+      return (
+        <SoftwareSkillsListComponent navigation={navigation} route={route} />
+      );
+    }
+    if (switcher === 'historyExp') {
+      return (
+        <HistoryExperienceListComponent navigation={navigation} route={route} />
       );
     }
 

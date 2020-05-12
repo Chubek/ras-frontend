@@ -79,8 +79,6 @@ export default function TechnicalSkillsListComponent({ route, navigation }) {
     setImportance(importanceButtons[selectedIndex]);
   };
 
-
-
   return (
     <View
       style={{ flex: 1, alignItems: 'center', justifyContent: 'space-around' }}
@@ -88,6 +86,7 @@ export default function TechnicalSkillsListComponent({ route, navigation }) {
       {list.map((l, i) => {
         return (
           <ListItemComponent
+            key={l.id}
             textOne={l.skillName}
             textTwo={l.proficiency}
             textThree={l.importance}
@@ -100,41 +99,43 @@ export default function TechnicalSkillsListComponent({ route, navigation }) {
       <Icon name="plus-circle" type="font-awesome" onPress={addToList} />
 
       <Overlay isVisible={overlay} onBackdropPress={toggleBack}>
-        <Row>
-          <Input
-            placeholder={list[index].skillName}
-            label={I18t.t('techSkills.skillName')}
-            onChangeText={t => setSkillName(t)}
-          />
-        </Row>
+        <Grid>
+          <Row>
+            <Input
+              placeholder={list[index].skillName}
+              label={I18t.t('techSkills.skillName')}
+              onChangeText={t => setSkillName(t)}
+            />
+          </Row>
 
-        <Row>
-          <ButtonGroup
-            onPress={updateIndexLevel}
-            selectedIndex={selectedIndex}
-            buttons={levelButtons}
-            containerStyle={{ height: 50, width: '100%', borderRadius: 20 }}
-          />
-        </Row>
+          <Row>
+            <ButtonGroup
+              onPress={updateIndexLevel}
+              selectedIndex={selectedIndex}
+              buttons={levelButtons}
+              containerStyle={{ height: 50, width: '100%', borderRadius: 20 }}
+            />
+          </Row>
 
-        <Row>
-          <ButtonGroup
-            onPress={updateIndexImportnce}
-            selectedIndex={selectedIndex}
-            buttons={importanceButtons}
-            containerStyle={{ height: 50, width: '100%', borderRadius: 20 }}
-          />
-        </Row>
+          <Row>
+            <ButtonGroup
+              onPress={updateIndexImportnce}
+              selectedIndex={selectedIndex}
+              buttons={importanceButtons}
+              containerStyle={{ height: 50, width: '100%', borderRadius: 20 }}
+            />
+          </Row>
 
-        <Button
-          icon={{ type: 'font-awesome', name: 'send' }}
-          title={I18t.t('send')}
-        />
-        <Button
-          icon={{ type: 'font-awesome', name: 'times' }}
-          title={I18t.t('remove')}
-          buttonStyle={{ backgroundColor: 'red' }}
-        />
+          <Button
+            icon={{ type: 'font-awesome', name: 'send' }}
+            title={I18t.t('send')}
+          />
+          <Button
+            icon={{ type: 'font-awesome', name: 'times' }}
+            title={I18t.t('remove')}
+            buttonStyle={{ backgroundColor: 'red' }}
+          />
+        </Grid>
       </Overlay>
     </View>
   );

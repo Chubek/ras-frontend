@@ -4,7 +4,7 @@ import * as React from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import ResumeCreationHomeComponent from '../components/stateful/ResumeComponents/ResumeCreationHomeComponent';
 
-export default function ResumeEditScreen() {
+export default function ResumeCreationHomeScreen() {
   const navigation = useNavigation();
   const route = useRoute();
   return <ResumeCreationHomeComponent navigation={navigation} route={route} />;

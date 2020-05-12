@@ -4,7 +4,7 @@ import * as React from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import ResumeView from '../modules/resume/ResumeView';
 
-export default function ResumeEditScreen() {
+export default function VolunteeringsListScreen() {
   const navigation = useNavigation();
   const route = useRoute();
   return (

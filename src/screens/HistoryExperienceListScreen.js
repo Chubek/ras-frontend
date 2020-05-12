@@ -4,10 +4,10 @@ import * as React from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import ResumeView from '../modules/resume/ResumeView';
 
-export default function TechnicalSkillsListScreen() {
+export default function HistoryExperienceListScreen() {
   const navigation = useNavigation();
   const route = useRoute();
   return (
-    <ResumeView navigation={navigation} route={route} switcher="techSkills" />
+    <ResumeView navigation={navigation} route={route} switcher="historyExp" />
   );
 }

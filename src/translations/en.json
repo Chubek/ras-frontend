@@ -130,6 +130,32 @@
         "tasksCompleted": "Tasks Completed",
         "orgName": "Organization Name",
         "dates": "Dates"
+    },
+    "degrees": {
+        "almaMater": "Alma Mater",
+        "degree": "Degree",
+        "dateEarned": "Date Earned"
+    },
+    "softwareSkills": {
+        "softwareName": "Software Name"
+    },
+    "historyExp": {
+        "companyName": "Company Name",
+        "location": "Location",
+        "dateFrom": "Date From",
+        "dateTo": "Date To",
+        "dutiesAndTasks": "Duties & Tasks"
+    },
+    "add": "Add",
+    "certification": {
+        "certName": "Certification Name",
+        "grantedBy": "Granted By",
+        "dateEarned": "Date Earned",
+        "dateExpires": "Date Expires"
+    },
+    "awards": {
+        "awardName": "Award Name",
+        "awardCompany": "Award Company",
+        "dateEarned": "Date Earned"
     }
-
 }

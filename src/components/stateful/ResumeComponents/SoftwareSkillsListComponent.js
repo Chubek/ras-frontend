@@ -10,34 +10,44 @@ import {
   ButtonGroup,
 } from 'react-native-elements';
 import uuid from 'react-uuid';
-import ReactChipsInput from 'react-native-chips';
 import I18t from '../../../translations';
 import StringToColor from 'string-to-color';
-
 import ListItemComponent from '../../stateless/ListItemComponent';
 
-export default function VolunteeringsListComponent({ route, navigation }) {
+export default function SoftwareSkillsListComponent({ route, navigation }) {
   const [list, setList] = useState([
     {
       id: uuid(),
-      orgName: 'Red Cross',
-      tasksCompleted: ['Seminar 2020', 'Seminar 2018'],
-      dates: ['2019'],
+      softwareName: 'Basic Karate',
+      proficiency: 'Skilled',
+      importance: 'Very Imporant',
     },
     {
       id: uuid(),
-      orgName: 'Boy Scouts',
-      tasksCompleted: ['Class 2010', 'Camp 2008'],
-      dates: ['2008'],
+      softwareName: 'Speed Typing',
+      proficiency: 'Beginner',
+      importance: 'Not Imporant',
     },
   ]);
 
+  const levelButtons = [
+    I18t.t('skillLevels.very'),
+    I18t.t('skillLevels.enough'),
+    I18t.t('skillLevels.adequate'),
+    I18t.t('skillLevels.justLearned'),
+  ];
+  const importanceButtons = [
+    I18t.t('skillImportance.very'),
+    I18t.t('skillImportance.normal'),
+    I18t.t('skillImportance.medium'),
+    I18t.t('skillImportance.sideHustle'),
+  ];
   const [overlay, toggleOverlay] = useState(false);
   const [index, setIndex] = useState(0);
   const [selectedIndex, setSelectedIndex] = useState(2);
-  const [orgName, setOrgName] = useState(null);
-  const [tasksCompleted, setTasks] = useState(null);
-  const [dates, setDates] = useState(null);
+  const [softwareName, setSoftwareName] = useState(null);
+  const [proficiency, setProficiency] = useState(null);
+  const [importance, setImportance] = useState(null);
   const toggle = theIndex => {
     toggleOverlay(true);
     setIndex(theIndex);
@@ -52,11 +62,21 @@ export default function VolunteeringsListComponent({ route, navigation }) {
       ...list,
       {
         id: uuid(),
-        orgName: 'New',
-        tasksCompleted: [],
-        dates: [],
+        softwareName: 'New',
+        proficiency: 'None',
+        importance: 'None',
       },
     ]);
+  };
+
+  const updateIndexLevel = givenIndex => {
+    setSelectedIndex(givenIndex);
+    setProficiency(levelButtons[selectedIndex]);
+  };
+
+  const updateIndexImportnce = givenIndex => {
+    setSelectedIndex(givenIndex);
+    setImportance(importanceButtons[selectedIndex]);
   };
 
   return (
@@ -67,9 +87,9 @@ export default function VolunteeringsListComponent({ route, navigation }) {
         return (
           <ListItemComponent
             key={l.id}
-            textOne={l.orgName}
-            textTwo={l.tasksCompleted[0]}
-            textThree={l.dates[0]}
+            textOne={l.softwareName}
+            textTwo={l.proficiency}
+            textThree={l.importance}
             onPress={() => toggle(i)}
             numOf={index}
             style={{ flex: 0.4, marginBottom: 5 }}
@@ -82,33 +102,27 @@ export default function VolunteeringsListComponent({ route, navigation }) {
         <Grid>
           <Row>
             <Input
-              placeholder={list[index].orgName}
-              label={I18t.t('techSkills.skillName')}
-              onChangeText={t => setOrgName(t)}
+              placeholder={list[index].softwareName}
+              label={I18t.t('softwareSkills.softwareName')}
+              onChangeText={t => setSoftwareName(t)}
             />
           </Row>
 
           <Row>
-            <ReactChipsInput
-              label={I18t.t('volunteerings.tasksCompleted')}
-              initialChips={list[index].tasksCompleted}
-              onChangeChips={chips =>
-                setTasks([...list[index].tasksCompleted, chips])
-              }
-              alertRequired
-              chipStyle={{ borderColor: 'blue', backgroundColor: 'grey' }}
-              inputStyle={{ fontSize: 22 }}
+            <ButtonGroup
+              onPress={updateIndexLevel}
+              selectedIndex={selectedIndex}
+              buttons={levelButtons}
+              containerStyle={{ height: 50, width: '100%', borderRadius: 20 }}
             />
           </Row>
 
           <Row>
-            <ReactChipsInput
-              label={I18t.t('volunteerings.dates')}
-              initialChips={list[index].dates}
-              onChangeChips={chips => setDates([...list[index].dates, chips])}
-              alertRequired
-              chipStyle={{ borderColor: 'blue', backgroundColor: 'grey' }}
-              inputStyle={{ fontSize: 22 }}
+            <ButtonGroup
+              onPress={updateIndexImportnce}
+              selectedIndex={selectedIndex}
+              buttons={importanceButtons}
+              containerStyle={{ height: 50, width: '100%', borderRadius: 20 }}
             />
           </Row>
 

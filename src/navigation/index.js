@@ -15,6 +15,9 @@ import ModalComponent from '../components/stateless/ModalComponent';
 import ResumeCreationHomeScreen from '../screens/ResumeCreationHomeScreen';
 import TechnicalSkillsListScreen from '../screens/TechnicalSkillsListScreen';
 import VolunteeringsListScreen from '../screens/VolunteeringsListScreen';
+import DegreeListScreen from '../screens/DegreeListScreen';
+import SoftwareSkillsListScreen from '../screens/SoftwareSkillsListScreen';
+import HistoryExperienceListScreen from '../screens/HistoryExperienceListScreen';
 
 const Stack = createStackNavigator();
 const Root = createDrawerNavigator();
@@ -49,7 +52,7 @@ function AuthNavigator() {
 
 function ResumeNavigator() {
   return (
-    <Resume.Navigator initialRouteName="VolunteeringsListScreen">
+    <Resume.Navigator initialRouteName="HistoryExperienceListScreen">
       <Resume.Screen
         name="ResumeCreationScreen"
         component={ResumeCreationScreen}
@@ -71,6 +74,24 @@ function ResumeNavigator() {
         name="VolunteeringsListScreen"
         component={VolunteeringsListScreen}
         options={{ title: 'Add a Volunteering Experience' }}
+        initialParams={{ resumeId: '0' }}
+      />
+      <Resume.Screen
+        name="DegreeListScreen"
+        component={DegreeListScreen}
+        options={{ title: 'Add a Degree' }}
+        initialParams={{ resumeId: '0' }}
+      />
+      <Resume.Screen
+        name="SoftwareSkillsListScreen"
+        component={SoftwareSkillsListScreen}
+        options={{ title: 'Add a Software Skill' }}
+        initialParams={{ resumeId: '0' }}
+      />
+      <Resume.Screen
+        name="HistoryExperienceListScreen"
+        component={HistoryExperienceListScreen}
+        options={{ title: 'Add a History and Experience' }}
         initialParams={{ resumeId: '0' }}
       />
     </Resume.Navigator>

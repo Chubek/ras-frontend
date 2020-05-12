@@ -10,34 +10,32 @@ import {
   ButtonGroup,
 } from 'react-native-elements';
 import uuid from 'react-uuid';
-import ReactChipsInput from 'react-native-chips';
 import I18t from '../../../translations';
 import StringToColor from 'string-to-color';
-
 import ListItemComponent from '../../stateless/ListItemComponent';
 
-export default function VolunteeringsListComponent({ route, navigation }) {
+export default function CertificationListComponent({ route, navigation }) {
   const [list, setList] = useState([
     {
       id: uuid(),
-      orgName: 'Red Cross',
-      tasksCompleted: ['Seminar 2020', 'Seminar 2018'],
-      dates: ['2019'],
+      awardName: 'Harvard',
+      awardCompany: 'Bsc CS',
+      dateEarned: '2012',
     },
     {
       id: uuid(),
-      orgName: 'Boy Scouts',
-      tasksCompleted: ['Class 2010', 'Camp 2008'],
-      dates: ['2008'],
+      awardName: 'Harvard',
+      awardCompany: 'Bsc CS',
+      dateEarned: '2012',
     },
   ]);
 
   const [overlay, toggleOverlay] = useState(false);
   const [index, setIndex] = useState(0);
   const [selectedIndex, setSelectedIndex] = useState(2);
-  const [orgName, setOrgName] = useState(null);
-  const [tasksCompleted, setTasks] = useState(null);
-  const [dates, setDates] = useState(null);
+  const [awardName, setAwardName] = useState(null);
+  const [awardCompany, setAwardCompany] = useState(null);
+  const [dateEarned, setDateEarned] = useState(null);
   const toggle = theIndex => {
     toggleOverlay(true);
     setIndex(theIndex);
@@ -52,9 +50,10 @@ export default function VolunteeringsListComponent({ route, navigation }) {
       ...list,
       {
         id: uuid(),
-        orgName: 'New',
-        tasksCompleted: [],
-        dates: [],
+        certName: 'Harvard',
+        grantedBy: 'Bsc CS',
+        dateEarned: '2012',
+        dateExpires: '2016',
       },
     ]);
   };
@@ -67,9 +66,9 @@ export default function VolunteeringsListComponent({ route, navigation }) {
         return (
           <ListItemComponent
             key={l.id}
-            textOne={l.orgName}
-            textTwo={l.tasksCompleted[0]}
-            textThree={l.dates[0]}
+            textOne={l.awardName}
+            textTwo={l.awardCompany}
+            textThree={l.dateEarned}
             onPress={() => toggle(i)}
             numOf={index}
             style={{ flex: 0.4, marginBottom: 5 }}
@@ -80,38 +79,28 @@ export default function VolunteeringsListComponent({ route, navigation }) {
 
       <Overlay isVisible={overlay} onBackdropPress={toggleBack}>
         <Grid>
+          {' '}
           <Row>
             <Input
-              placeholder={list[index].orgName}
-              label={I18t.t('techSkills.skillName')}
-              onChangeText={t => setOrgName(t)}
+              placeholder={list[index].awardName}
+              label={I18t.t('awards.awardName')}
+              onChangeText={t => setAwardName(t)}
             />
           </Row>
-
           <Row>
-            <ReactChipsInput
-              label={I18t.t('volunteerings.tasksCompleted')}
-              initialChips={list[index].tasksCompleted}
-              onChangeChips={chips =>
-                setTasks([...list[index].tasksCompleted, chips])
-              }
-              alertRequired
-              chipStyle={{ borderColor: 'blue', backgroundColor: 'grey' }}
-              inputStyle={{ fontSize: 22 }}
+            <Input
+              placeholder={list[index].awardCompany}
+              label={I18t.t('awards.awardCompany')}
+              onChangeText={t => setAwardCompany(t)}
             />
           </Row>
-
           <Row>
-            <ReactChipsInput
-              label={I18t.t('volunteerings.dates')}
-              initialChips={list[index].dates}
-              onChangeChips={chips => setDates([...list[index].dates, chips])}
-              alertRequired
-              chipStyle={{ borderColor: 'blue', backgroundColor: 'grey' }}
-              inputStyle={{ fontSize: 22 }}
+            <Input
+              placeholder={list[index].dateEarned}
+              label={I18t.t('certifications.dateEarned')}
+              onChangeText={t => setDateEarned(t)}
             />
           </Row>
-
           <Button
             icon={{ type: 'font-awesome', name: 'send' }}
             title={I18t.t('send')}

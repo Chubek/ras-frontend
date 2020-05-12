@@ -4,7 +4,7 @@ import * as React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import FirebaseAuthView from '../modules/firebase-auth/FirebaseAuthViewContainer';
 
-export default function LoginScreen() {
+export default function RegisterScreen() {
   const navigation = useNavigation();
   return <FirebaseAuthView navigation={navigation} switcher="register" />;
 }
