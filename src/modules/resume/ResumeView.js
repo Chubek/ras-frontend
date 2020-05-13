@@ -9,7 +9,10 @@ import VolunteeringListComponent from '../../components/stateful/ResumeComponent
 import DegreeListComponent from '../../components/stateful/ResumeComponents/DegreesListComponent';
 import SoftwareSkillsListComponent from '../../components/stateful/ResumeComponents/SoftwareSkillsListComponent';
 import HistoryExperienceListComponent from '../../components/stateful/ResumeComponents/HistoryExperienceListComponent';
-
+import ContactSectionComponent from '../../components/stateful/ResumeComponents/ContactSectionComponent';
+import AwardsListComponent from '../../components/stateful/ResumeComponents/AwardsListComponent';
+import CertificationsListComponent from '../../components/stateful/ResumeComponents/CertificationsListComponent';
+import ObjeciveSection from '../../components/stateful/ResumeComponents/ObjectiveSection';
 export default class ResumeView extends Component {
   state = {};
 
@@ -42,6 +45,20 @@ export default class ResumeView extends Component {
       return (
         <HistoryExperienceListComponent navigation={navigation} route={route} />
       );
+    }
+    if (switcher === 'contact') {
+      return <ContactSectionComponent navigation={navigation} route={route} />;
+    }
+    if (switcher === 'objective') {
+      return <ObjeciveSection navigation={navigation} route={route} />;
+    }
+    if (switcher === 'cert') {
+      return (
+        <CertificationsListComponent navigation={navigation} route={route} />
+      );
+    }
+    if (switcher === 'award') {
+      return <AwardsListComponent navigation={navigation} route={route} />;
     }
 
     return false;

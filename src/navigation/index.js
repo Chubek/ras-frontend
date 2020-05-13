@@ -18,6 +18,10 @@ import VolunteeringsListScreen from '../screens/VolunteeringsListScreen';
 import DegreeListScreen from '../screens/DegreeListScreen';
 import SoftwareSkillsListScreen from '../screens/SoftwareSkillsListScreen';
 import HistoryExperienceListScreen from '../screens/HistoryExperienceListScreen';
+import ContactScreen from '../screens/ContactScreen';
+import ObjectiveScreen from '../screens/ObjectiveScreen';
+import AwardScreen from '../screens/AwardScreen';
+import CertificationScreen from '../screens/CertificationsListScreen';
 
 const Stack = createStackNavigator();
 const Root = createDrawerNavigator();
@@ -52,7 +56,7 @@ function AuthNavigator() {
 
 function ResumeNavigator() {
   return (
-    <Resume.Navigator initialRouteName="HistoryExperienceListScreen">
+    <Resume.Navigator initialRouteName="ResumeCreationHomeScreen">
       <Resume.Screen
         name="ResumeCreationScreen"
         component={ResumeCreationScreen}
@@ -91,6 +95,30 @@ function ResumeNavigator() {
       <Resume.Screen
         name="HistoryExperienceListScreen"
         component={HistoryExperienceListScreen}
+        options={{ title: 'Add a History and Experience' }}
+        initialParams={{ resumeId: '0' }}
+      />
+      <Resume.Screen
+        name="ObjectiveScreen"
+        component={ObjectiveScreen}
+        options={{ title: 'Add an Objective' }}
+        initialParams={{ resumeId: '0' }}
+      />
+      <Resume.Screen
+        name="ContactScreen"
+        component={ContactScreen}
+        options={{ title: 'Add Contact Info' }}
+        initialParams={{ resumeId: '0' }}
+      />
+      <Resume.Screen
+        name="AwardScreen"
+        component={AwardScreen}
+        options={{ title: 'Add a History and Experience' }}
+        initialParams={{ resumeId: '0' }}
+      />
+      <Resume.Screen
+        name="CertificationScreen"
+        component={AwardScreen}
         options={{ title: 'Add a History and Experience' }}
         initialParams={{ resumeId: '0' }}
       />
