@@ -14,23 +14,14 @@ import I18t from '../../../translations';
 import StringToColor from 'string-to-color';
 import ListItemFour from '../../stateless/ListItemFour';
 
-export default function CertificationListComponent({ route, navigation }) {
-  const [list, setList] = useState([
-    {
-      id: uuid(),
-      certName: 'Harvard',
-      grantedBy: 'Bsc CS',
-      dateEarned: '2012',
-      dateExpires: '2016',
-    },
-    {
-      id: uuid(),
-      certName: 'Harvard',
-      grantedBy: 'Bsc CS',
-      dateEarned: '2012',
-      dateExpires: '2016',
-    },
-  ]);
+export default function CertificationListComponent({
+  route,
+  navigation,
+  appendCerts,
+  certifications,
+  resumeId,
+}) {
+  const [list, setList] = useState(certifications);
 
   const [overlay, toggleOverlay] = useState(false);
   const [index, setIndex] = useState(0);
@@ -53,12 +44,16 @@ export default function CertificationListComponent({ route, navigation }) {
       ...list,
       {
         id: uuid(),
-        certName: 'Harvard',
-        grantedBy: 'Bsc CS',
-        dateEarned: '2012',
-        dateExpires: '2016',
+        certName,
+        grantedBy,
+        dateEarned,
+        dateExpires,
       },
     ]);
+  };
+
+  const onAppendCerts = () => {
+    appendCerts(list);
   };
 
   return (
@@ -83,7 +78,6 @@ export default function CertificationListComponent({ route, navigation }) {
 
       <Overlay isVisible={overlay} onBackdropPress={toggleBack}>
         <Grid>
-          {' '}
           <Row>
             <Input
               placeholder={list[index].almaMater}
@@ -115,6 +109,7 @@ export default function CertificationListComponent({ route, navigation }) {
           <Button
             icon={{ type: 'font-awesome', name: 'send' }}
             title={I18t.t('send')}
+            onPress={onAppendCerts}
           />
           <Button
             icon={{ type: 'font-awesome', name: 'times' }}

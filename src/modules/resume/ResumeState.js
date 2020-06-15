@@ -40,13 +40,15 @@ const initialState = {
   certifications: [],
   awardsAchievements: [],
   volunteerings: [],
+  resumeExistenceMessage: null,
+  userResumes: [],
 };
 
 //  thunk actions
 export function getSingleResume(resumeId) {
   return dispatch => {
     axios
-      .get(`${globalStr.erverUrl}/resume/get/single/${resumeId}`, {
+      .get(`${globalStr.serverUrl}/resume/get/single/${resumeId}`, {
         headers: { 'x-auth-user': helpers.getUserToken() },
       })
       .then(res => {
@@ -55,6 +57,28 @@ export function getSingleResume(resumeId) {
       })
       .catch(e => {
         helpers.showErrorMessage(e);
+        console.log(e);
+      });
+  };
+}
+
+export function getUserResume() {
+  return dispatch => {
+    axios
+      .get(`${globalStr.serverUrl}/resume/get/all/`, {
+        headers: { 'x-auth-user': helpers.getUserToken() },
+      })
+      .then(res => {
+        const resumeDocs = res.data;
+        dispatch({ type: CONSTANTS.FETCH_RESUME_USER, payload: resumeDocs });
+      })
+      .catch(e => {
+        if (e.response.status === 404) {
+          dispatch({
+            type: CONSTANTS.SET_EXISTENCE_MESSAGE,
+            payload: 'No Resume Found.',
+          });
+        }
       });
   };
 }
@@ -86,6 +110,7 @@ export function createResume(resumeName) {
       })
       .catch(e => {
         helpers.showErrorMessage(e);
+        console.log(e);
       });
   };
 }
@@ -139,6 +164,7 @@ export function setContactInfo(contactInfo) {
       })
       .catch(e => {
         helpers.showErrorMessage(e);
+        console.log(e);
       });
   };
 }
@@ -176,6 +202,7 @@ export function setSummaryObjective(summaryObjective) {
       })
       .catch(e => {
         helpers.showErrorMessage(e);
+        console.log(e);
       });
   };
 }
@@ -217,6 +244,7 @@ export function appendHistory(newHistory) {
       })
       .catch(e => {
         helpers.showErrorMessage(e);
+        console.log(e);
       });
   };
 }
@@ -254,6 +282,7 @@ export function appendTechSkills(newSkills) {
       })
       .catch(e => {
         helpers.showErrorMessage(e);
+        console.log(e);
       });
   };
 }
@@ -266,37 +295,35 @@ export function appendSoftwareSkills(newSkills) {
     return false;
   }
 
-  return new Promise((resolve, reject) => {
-    return (dispatch, getState) => {
-      const { resumeId } = getState().resume;
+  return (dispatch, getState) => {
+    const { resumeId } = getState().resume;
 
-      axios
-        .put(
-          `${globalStr.serverUrl}/resume/append/softwareskills/${resumeId}`,
-          newSkills,
-          {
-            headers: { 'x-auth-user': helpers.getUserToken() },
-          },
-        )
-        .then(res => {
-          const { resumeUpdated } = res.data;
-          if (resumeUpdated) {
-            helpers.showSuccessMessage(
-              `Resume software skills appended successfully.`,
-            );
-            resolve({ message: 'Updated' });
-            dispatch({
-              type: CONSTANTS.APPEND_SOFTWARE,
-              payload: newSkills,
-            });
-          }
-        })
-        .catch(e => {
-          helpers.showErrorMessage(e);
-          reject(e);
-        });
-    };
-  });
+    axios
+      .put(
+        `${globalStr.serverUrl}/resume/append/softwareskills/${resumeId}`,
+        newSkills,
+        {
+          headers: { 'x-auth-user': helpers.getUserToken() },
+        },
+      )
+      .then(res => {
+        const { resumeUpdated } = res.data;
+        if (resumeUpdated) {
+          helpers.showSuccessMessage(
+            `Resume software skills appended successfully.`,
+          );
+
+          dispatch({
+            type: CONSTANTS.APPEND_SOFTWARE,
+            payload: newSkills,
+          });
+        }
+      })
+      .catch(e => {
+        helpers.showErrorMessage(e);
+        console.log(e);
+      });
+  };
 }
 
 export function appendDegrees(newDegree) {
@@ -332,6 +359,7 @@ export function appendDegrees(newDegree) {
       })
       .catch(e => {
         helpers.showErrorMessage(e);
+        console.log(e);
       });
   };
 }
@@ -366,6 +394,7 @@ export function appendCerts(newCert) {
       })
       .catch(e => {
         helpers.showErrorMessage(e);
+        console.log(e);
       });
   };
 }
@@ -402,6 +431,7 @@ export function appendAwards(newAward) {
       })
       .catch(e => {
         helpers.showErrorMessage(e);
+        console.log(e);
       });
   };
 }
@@ -440,6 +470,7 @@ export function appendVolunteerings(newVolunteering) {
       })
       .catch(e => {
         helpers.showErrorMessage(e);
+        console.log(e);
       });
   };
 }
@@ -474,6 +505,7 @@ export function restoreToCapture(editDate) {
       })
       .catch(e => {
         helpers.showErrorMessage(e);
+        console.log(e);
       });
   };
 }
@@ -489,7 +521,10 @@ export function deleteResume(resumeId) {
       headers: { 'x-auth-user': helpers.getUserToken() },
     })
     .then(() => helpers.showSuccessMessage(`Resume ${resumeId} deleted.`))
-    .catch(e => helpers.showErrorMessage(e));
+    .catch(e => {
+      helpers.showErrorMessage(e);
+      console.log(e);
+    });
 
   return true;
 }
@@ -584,6 +619,16 @@ export default function ResumeStateReducer(state = initialState, action = {}) {
         certifications: action.payload.certifications,
         awardsAchievements: action.payload.awardsAchievements,
         volunteering: action.payload.awardsAchievements,
+      };
+    case CONSTANTS.FETCH_RESUME_USER:
+      return {
+        ...state,
+        userResumes: action.payload,
+      };
+    case CONSTANTS.SET_EXISTENCE_MESSAGE:
+      return {
+        ...state,
+        resumeExistenceMessage: action.payload,
       };
     default:
       return state;

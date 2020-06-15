@@ -13,22 +13,16 @@ import uuid from 'react-uuid';
 import I18t from '../../../translations';
 import StringToColor from 'string-to-color';
 import ListItemComponent from '../../stateless/ListItemComponent';
+import { appendAwards } from '../../../modules/resume/ResumeState';
 
-export default function CertificationListComponent({ route, navigation }) {
-  const [list, setList] = useState([
-    {
-      id: uuid(),
-      awardName: 'Harvard',
-      awardCompany: 'Bsc CS',
-      dateEarned: '2012',
-    },
-    {
-      id: uuid(),
-      awardName: 'Harvard',
-      awardCompany: 'Bsc CS',
-      dateEarned: '2012',
-    },
-  ]);
+export default function CertificationListComponent({
+  route,
+  navigation,
+  appendAwards,
+  resumeId,
+  awardsAchievements,
+}) {
+  const [list, setList] = useState(awardsAchievements);
 
   const [overlay, toggleOverlay] = useState(false);
   const [index, setIndex] = useState(0);
@@ -50,12 +44,15 @@ export default function CertificationListComponent({ route, navigation }) {
       ...list,
       {
         id: uuid(),
-        certName: 'Harvard',
-        grantedBy: 'Bsc CS',
-        dateEarned: '2012',
-        dateExpires: '2016',
+        awardName,
+        awardCompany,
+        dateEarned,
       },
     ]);
+  };
+
+  const onAppendAwards = () => {
+    appendAwards(list);
   };
 
   return (
@@ -79,7 +76,6 @@ export default function CertificationListComponent({ route, navigation }) {
 
       <Overlay isVisible={overlay} onBackdropPress={toggleBack}>
         <Grid>
-          {' '}
           <Row>
             <Input
               placeholder={list[index].awardName}
@@ -104,6 +100,7 @@ export default function CertificationListComponent({ route, navigation }) {
           <Button
             icon={{ type: 'font-awesome', name: 'send' }}
             title={I18t.t('send')}
+            onPress={onAppendAwards}
           />
           <Button
             icon={{ type: 'font-awesome', name: 'times' }}

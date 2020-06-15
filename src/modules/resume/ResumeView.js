@@ -20,56 +20,107 @@ export default class ResumeView extends Component {
     const { navigation, switcher, resumeId, route } = this.props;
     if (switcher === 'resumeCreate') {
       return (
-        <ResumeCreationComponent navigation={navigation} resumeId={resumeId} />
+        <ResumeCreationComponent
+          navigation={navigation}
+          resumeId={resumeId}
+          createResume={this.props.createResume}
+        />
       );
     }
     if (switcher === 'techSkills') {
       return (
-        <TechnicalSkillsListComponent navigation={navigation} route={route} />
+        <TechnicalSkillsListComponent
+          navigation={navigation}
+          route={route}
+          appendTechSkills={this.props.appendTechSkills}
+          resumeId={this.props.resumeId}
+        />
       );
     }
     if (switcher === 'volunteerings') {
       return (
-        <VolunteeringListComponent navigation={navigation} route={route} />
+        <VolunteeringListComponent
+          navigation={navigation}
+          route={route}
+          appendVolunteerings={this.props.appendVolunteerings}
+          resumeId={this.props.reusmeId}
+        />
       );
     }
     if (switcher === 'degree') {
-      return <DegreeListComponent navigation={navigation} route={route} />;
+      return (
+        <DegreeListComponent
+          navigation={navigation}
+          route={route}
+          appendDegrees={this.props.appendDegrees}
+          resumeId={this.props.resumeId}
+        />
+      );
     }
     if (switcher === 'softwareSkills') {
       return (
-        <SoftwareSkillsListComponent navigation={navigation} route={route} />
+        <SoftwareSkillsListComponent
+          navigation={navigation}
+          route={route}
+          appendSoftwareSkills={this.props.appendSoftwareSkills}
+          resumeId={this.props.resumeId}
+        />
       );
     }
     if (switcher === 'historyExp') {
       return (
-        <HistoryExperienceListComponent navigation={navigation} route={route} />
+        <HistoryExperienceListComponent
+          navigation={navigation}
+          route={route}
+          appendHistory={this.props.appendHistory}
+          resumeId={resumeId}
+        />
       );
     }
     if (switcher === 'contact') {
-      return <ContactSectionComponent navigation={navigation} route={route} />;
+      return (
+        <ContactSectionComponent
+          navigation={navigation}
+          route={route}
+          setContactInfo={this.props.setContactInfo}
+          resumeId={this.props.resumeId}
+          contactInfo={this.props.contactInfo}
+        />
+      );
     }
     if (switcher === 'objective') {
-      return <ObjeciveSection navigation={navigation} route={route} />;
+      return (
+        <ObjeciveSection
+          navigation={navigation}
+          route={route}
+          setSummaryObjective={this.props.setSummaryObjective}
+          resumeId={this.props.resumeId}
+        />
+      );
     }
     if (switcher === 'cert') {
       return (
-        <CertificationsListComponent navigation={navigation} route={route} />
+        <CertificationsListComponent
+          navigation={navigation}
+          route={route}
+          appendCert={this.props.appendCert}
+          resumeId={this.props.resumeId}
+          certifications={this.props.certifications}
+        />
       );
     }
     if (switcher === 'award') {
-      return <AwardsListComponent navigation={navigation} route={route} />;
+      return (
+        <AwardsListComponent
+          navigation={navigation}
+          route={route}
+          appendAwards={this.props.appendAwards}
+          resumeId={this.props.resumeId}
+          awardsAchievements={this.props.awardsAchievements}
+        />
+      );
     }
 
     return false;
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    paddingHorizontal: 30,
-  },
-});

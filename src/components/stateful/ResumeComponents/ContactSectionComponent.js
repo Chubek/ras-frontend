@@ -14,15 +14,15 @@ import I18t from '../../../translations';
 
 import StateSelector from '../../stateless/StateSelector';
 
-export default function ContactSection({ route, navigation }) {
+export default function ContactSection({ route, navigation. setContactInfo, contactInfo, resumeId }) {
   const [visible, setVisible] = useState(false);
-  const [zipCode, setZipCode] = useState(null);
-  const [firstName, setFirstName] = useState(null);
-  const [lastName, setLastName] = useState(null);
-  const [email, setEmail] = useState(null);
-  const [phoneNumber, setPhoneNumber] = useState(null);
-  const [state, setState] = useState(null);
-  const [city, setCity] = useState(null);
+  const [zipCode, setZipCode] = useState(contactInfo.zipCode);
+  const [firstName, setFirstName] = useState(contactInfo.firstName);
+  const [lastName, setLastName] = useState(contactInfo.lastName);
+  const [email, setEmail] = useState(contactInfo.email);
+  const [phoneNumber, setPhoneNumber] = useState(contactInfo.phoneNumber);
+  const [state, setState] = useState(contactInfo.state);
+  const [city, setCity] = useState(contactInfo.city);
   const [emailValid, setEmailValid] = useState('times');
   const [numberValid, setNumberValid] = useState('times');
   const [zipCodeValid, setZipCodeValid] = useState('times');
@@ -57,6 +57,21 @@ export default function ContactSection({ route, navigation }) {
     }
     /* eslint-enable */
   };
+
+  onSetContactInfo = () => {
+    setContactInfo({firstName, lastName, email, phoneNumber, city, state, zipCode});
+  }
+
+  const onCleanState = () => {
+    setZipCode('');
+    setCity('');
+    setEmail('');
+    setFirstName('');
+    setLastName('');
+    setPhoneNumber('');
+    setState('');
+    
+  }
 
   return (
     <Grid>
@@ -141,6 +156,17 @@ export default function ContactSection({ route, navigation }) {
           <Icon type="font-awesome" name={zipCodeValid} color="#h00" />
         </Col>
       </Row>
+      <Button
+            icon={{ type: 'font-awesome', name: 'send' }}
+            title={I18t.t('send')}
+            onPress={onSetContactInfo}
+          />
+          <Button
+            icon={{ type: 'font-awesome', name: 'times' }}
+            title={I18t.t('clean')}
+            buttonStyle={{ backgroundColor: 'red' }}
+            onPress={onCleanState}
+          />
     </Grid>
   );
 }

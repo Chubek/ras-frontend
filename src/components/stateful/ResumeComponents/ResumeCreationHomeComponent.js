@@ -13,6 +13,7 @@ import {
   Card,
 } from 'react-native-elements';
 import uuid from 'react-uuid';
+import { connect } from 'react-redux';
 import I18t from '../../../translations';
 import TileComponent from '../../stateless/TileComponent';
 

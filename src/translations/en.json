@@ -157,5 +157,6 @@
         "awardName": "Award Name",
         "awardCompany": "Award Company",
         "dateEarned": "Date Earned"
-    }
+    },
+    "clean": "Clean"
 }

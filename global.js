@@ -1,4 +1,2 @@
-import { SERVER_URL } from 'react-native-dotenv';
-
-export const serverUrl = SERVER_URL;
+export const serverUrl = "https://resume-as-a-serice.herokuapp.com";
 export const serverUri = undefined;
