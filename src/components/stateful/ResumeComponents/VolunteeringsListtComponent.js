@@ -16,21 +16,13 @@ import StringToColor from 'string-to-color';
 
 import ListItemComponent from '../../stateless/ListItemComponent';
 
-export default function VolunteeringsListComponent({ route, navigation }) {
-  const [list, setList] = useState([
-    {
-      id: uuid(),
-      orgName: 'Red Cross',
-      tasksCompleted: ['Seminar 2020', 'Seminar 2018'],
-      dates: ['2019'],
-    },
-    {
-      id: uuid(),
-      orgName: 'Boy Scouts',
-      tasksCompleted: ['Class 2010', 'Camp 2008'],
-      dates: ['2008'],
-    },
-  ]);
+export default function VolunteeringsListComponent({
+  route,
+  navigation,
+  appendVolunteerings,
+  volunteerings,
+}) {
+  const [list, setList] = useState(volunteerings);
 
   const [overlay, toggleOverlay] = useState(false);
   const [index, setIndex] = useState(0);
@@ -52,11 +44,15 @@ export default function VolunteeringsListComponent({ route, navigation }) {
       ...list,
       {
         id: uuid(),
-        orgName: 'New',
-        tasksCompleted: [],
-        dates: [],
+        orgName,
+        tasksCompleted,
+        dates,
       },
     ]);
+  };
+
+  const onAppendVolunteerings = () => {
+    appendVolunteerings(list);
   };
 
   return (
@@ -115,6 +111,7 @@ export default function VolunteeringsListComponent({ route, navigation }) {
           <Button
             icon={{ type: 'font-awesome', name: 'send' }}
             title={I18t.t('send')}
+            onPress={onAppendVolunteerings}
           />
           <Button
             icon={{ type: 'font-awesome', name: 'times' }}

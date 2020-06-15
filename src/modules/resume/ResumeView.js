@@ -44,6 +44,7 @@ export default class ResumeView extends Component {
           route={route}
           appendVolunteerings={this.props.appendVolunteerings}
           resumeId={this.props.reusmeId}
+          volunteerings={this.props.volunteerings}
         />
       );
     }
@@ -54,6 +55,7 @@ export default class ResumeView extends Component {
           route={route}
           appendDegrees={this.props.appendDegrees}
           resumeId={this.props.resumeId}
+          degrees={this.props.degrees}
         />
       );
     }
@@ -64,6 +66,7 @@ export default class ResumeView extends Component {
           route={route}
           appendSoftwareSkills={this.props.appendSoftwareSkills}
           resumeId={this.props.resumeId}
+          softwareSkills={this.props.softwareSkills}
         />
       );
     }
@@ -74,6 +77,7 @@ export default class ResumeView extends Component {
           route={route}
           appendHistory={this.props.appendHistory}
           resumeId={resumeId}
+          historyExperience={this.props.historyExperience}
         />
       );
     }
@@ -95,6 +99,7 @@ export default class ResumeView extends Component {
           route={route}
           setSummaryObjective={this.props.setSummaryObjective}
           resumeId={this.props.resumeId}
+          summaryObjective={this.props.summaryObjective}
         />
       );
     }

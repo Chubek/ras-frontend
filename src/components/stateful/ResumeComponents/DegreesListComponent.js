@@ -14,21 +14,13 @@ import I18t from '../../../translations';
 import StringToColor from 'string-to-color';
 import ListItemComponent from '../../stateless/ListItemComponent';
 
-export default function DegreesListComponent({ route, navigation }) {
-  const [list, setList] = useState([
-    {
-      id: uuid(),
-      almaMater: 'Harvard',
-      degree: 'Bsc CS',
-      dateEarned: '2012',
-    },
-    {
-      id: uuid(),
-      almaMater: 'Johns Hopkins',
-      degree: 'Doctorate in Medicine',
-      dateEarned: '2015',
-    },
-  ]);
+export default function DegreesListComponent({
+  route,
+  navigation,
+  appendDegrees,
+  degrees,
+}) {
+  const [list, setList] = useState(degrees);
 
   const [overlay, toggleOverlay] = useState(false);
   const [index, setIndex] = useState(0);
@@ -50,11 +42,15 @@ export default function DegreesListComponent({ route, navigation }) {
       ...list,
       {
         id: uuid(),
-        almaMater: 'New',
-        degree: 'None',
-        dateEarned: 'None',
+        almaMater,
+        degree,
+        dateEarned,
       },
     ]);
+  };
+
+  const onAppendDegrees = () => {
+    appendDegrees(list);
   };
 
   return (
@@ -103,6 +99,7 @@ export default function DegreesListComponent({ route, navigation }) {
           <Button
             icon={{ type: 'font-awesome', name: 'send' }}
             title={I18t.t('send')}
+            onPress={onAppendDegrees}
           />
           <Button
             icon={{ type: 'font-awesome', name: 'times' }}

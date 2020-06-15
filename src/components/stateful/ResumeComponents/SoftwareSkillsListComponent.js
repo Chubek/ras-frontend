@@ -14,21 +14,13 @@ import I18t from '../../../translations';
 import StringToColor from 'string-to-color';
 import ListItemComponent from '../../stateless/ListItemComponent';
 
-export default function SoftwareSkillsListComponent({ route, navigation }) {
-  const [list, setList] = useState([
-    {
-      id: uuid(),
-      softwareName: 'Basic Karate',
-      proficiency: 'Skilled',
-      importance: 'Very Imporant',
-    },
-    {
-      id: uuid(),
-      softwareName: 'Speed Typing',
-      proficiency: 'Beginner',
-      importance: 'Not Imporant',
-    },
-  ]);
+export default function SoftwareSkillsListComponent({
+  route,
+  navigation,
+  appendSoftwareSkills,
+  softwareSkills,
+}) {
+  const [list, setList] = useState(softwareSkills);
 
   const levelButtons = [
     I18t.t('skillLevels.very'),
@@ -62,9 +54,9 @@ export default function SoftwareSkillsListComponent({ route, navigation }) {
       ...list,
       {
         id: uuid(),
-        softwareName: 'New',
-        proficiency: 'None',
-        importance: 'None',
+        softwareName,
+        proficiency,
+        importance,
       },
     ]);
   };
@@ -77,6 +69,10 @@ export default function SoftwareSkillsListComponent({ route, navigation }) {
   const updateIndexImportnce = givenIndex => {
     setSelectedIndex(givenIndex);
     setImportance(importanceButtons[selectedIndex]);
+  };
+
+  const onAppendSoftwareSkills = () => {
+    appendSoftwareSkills(list);
   };
 
   return (
@@ -129,6 +125,7 @@ export default function SoftwareSkillsListComponent({ route, navigation }) {
           <Button
             icon={{ type: 'font-awesome', name: 'send' }}
             title={I18t.t('send')}
+            onPress={onAppendSoftwareSkills}
           />
           <Button
             icon={{ type: 'font-awesome', name: 'times' }}

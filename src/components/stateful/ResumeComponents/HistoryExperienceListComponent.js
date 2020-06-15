@@ -16,25 +16,13 @@ import StringToColor from 'string-to-color';
 
 import ListItemFive from '../../stateless/ListItemFive';
 
-export default function HistoryExperienceListComponent({ route, navigation }) {
-  const [list, setList] = useState([
-    {
-      id: uuid(),
-      companyName: 'Microsoft',
-      location: 'Seattle',
-      dateFrom: '2019',
-      dateTo: '2021',
-      dutiesAndTasks: ['Exterminator'],
-    },
-    {
-      id: uuid(),
-      companyName: 'One World LED',
-      location: 'Adelaide',
-      dateFrom: '2019',
-      dateTo: '2021',
-      dutiesAndTasks: ['Rat Killer'],
-    },
-  ]);
+export default function HistoryExperienceListComponent({
+  route,
+  navigation,
+  appendHistory,
+  historyExperience,
+}) {
+  const [list, setList] = useState(historyExperience);
 
   const [overlay, toggleOverlay] = useState(false);
   const [index, setIndex] = useState(0);
@@ -58,13 +46,17 @@ export default function HistoryExperienceListComponent({ route, navigation }) {
       ...list,
       {
         id: uuid(),
-        companyName: 'One World LED',
-        location: 'Adelaide',
-        dateFrom: '2019',
-        dateTo: '2021',
-        dutiesAndTasks: ['Rat Killer'],
+        companyName,
+        location,
+        dateFrom,
+        dateTo,
+        dutiesAndTasks,
       },
     ]);
+  };
+
+  const onAppendHistory = () => {
+    appendHistory(list);
   };
 
   return (
@@ -150,6 +142,7 @@ export default function HistoryExperienceListComponent({ route, navigation }) {
               <Button
                 icon={{ type: 'font-awesome', name: 'send' }}
                 title={I18t.t('send')}
+                onPress={onAppendHistory}
               />
             </Col>
             <Col size={50}>

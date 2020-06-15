@@ -14,38 +14,18 @@ import I18t from '../../../translations';
 import StringToColor from 'string-to-color';
 import ListOne from '../../stateless/ListOne';
 
-export default function SoftwareSkillsListComponent({ route, navigation }) {
-  const [objectiveList, setObjectiveList] = useState([
-    {
-      id: uuid(),
-      objective: 'Objective 1',
-    },
-    {
-      id: uuid(),
-      objective: 'Objective 1',
-    },
-  ]);
-  const [summaryList, setSummaryList] = useState([
-    {
-      id: uuid(),
-      summary: 'Summary 1',
-    },
-    {
-      id: uuid(),
-      summary: 'Summary 1',
-    },
-  ]);
+export default function SoftwareSkillsListComponent({
+  route,
+  navigation,
+  setSummaryObjective,
+  summaryObjective,
+}) {
+  const [objectiveList, setObjectiveList] = useState(
+    summaryObjective.objective,
+  );
+  const [summaryList, setSummaryList] = useState(summaryObjective.objective);
 
-  const [blufList, setBlufList] = useState([
-    {
-      id: uuid(),
-      bluf: 'Bluf 1',
-    },
-    {
-      id: uuid(),
-      bluf: 'Bluf 1',
-    },
-  ]);
+  const [blufList, setBlufList] = useState(summaryObjective.bluf);
 
   const headerButtons = [
     I18t.t('objectiveLabels.objective'),
@@ -73,7 +53,7 @@ export default function SoftwareSkillsListComponent({ route, navigation }) {
       ...objectiveList,
       {
         id: uuid(),
-        objective: 'New',
+        objective,
       },
     ]);
   };
@@ -83,9 +63,13 @@ export default function SoftwareSkillsListComponent({ route, navigation }) {
       ...summaryList,
       {
         id: uuid(),
-        summary: 'New',
+        summary,
       },
     ]);
+  };
+
+  const onSetSummaryObjective = () => {
+    setSummaryObjective({ summaryList, objectiveList, blufList });
   };
 
   const addToBlufList = () => {
@@ -93,7 +77,7 @@ export default function SoftwareSkillsListComponent({ route, navigation }) {
       ...objectiveList,
       {
         id: uuid(),
-        bluf: 'New',
+        bluf,
       },
     ]);
   };
@@ -153,6 +137,11 @@ export default function SoftwareSkillsListComponent({ route, navigation }) {
             />
           </Grid>
         </Overlay>
+        <Button
+          icon={{ type: 'font-awesome', name: 'send' }}
+          title={I18t.t('send')}
+          onPress={onSetSummaryObjective}
+        />
       </View>
     );
   }
@@ -209,6 +198,11 @@ export default function SoftwareSkillsListComponent({ route, navigation }) {
             />
           </Grid>
         </Overlay>
+        <Button
+          icon={{ type: 'font-awesome', name: 'send' }}
+          title={I18t.t('send')}
+          onPress={onSetSummaryObjective}
+        />
       </View>
     );
   }
@@ -261,6 +255,11 @@ export default function SoftwareSkillsListComponent({ route, navigation }) {
             />
           </Grid>
         </Overlay>
+        <Button
+          icon={{ type: 'font-awesome', name: 'send' }}
+          title={I18t.t('send')}
+          onPress={onSetSummaryObjective}
+        />
       </View>
     );
   }
