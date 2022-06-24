@@ -108,7 +108,7 @@
     "flow-bin": "^0.105.0",
     "install": "^0.13.0",
     "jest": "^24.1.0",
-    "jsdom": "13.0.0",
+    "jsdom": "16.5.0",
     "jsdom-global": "3.0.2",
     "metro-react-native-babel-preset": "^0.59.0",
     "npm": "^6.14.4",
